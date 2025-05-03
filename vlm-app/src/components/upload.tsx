@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-
+import { useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -13,6 +13,7 @@ export function Upload() {
   const router = useRouter()
   const [isDragging, setIsDragging] = useState(false)
   const [file, setFile] = useState<File | null>(null)
+  const [formData,setformData] = useState(new FormData());
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [showProgress, setShowProgress] = useState(false)
@@ -45,37 +46,81 @@ export function Upload() {
   }, [])
 
   const handleFile = useCallback((selectedFile: File) => {
-    // Check if file is PDF, PNG, or JPG
-    const fileType = selectedFile.type
-    if (fileType === "application/pdf" || fileType === "image/png" || fileType === "image/jpeg") {
-      setFile(selectedFile)
+    const fileType = selectedFile.type;
+  
+    if (
+      fileType === "application/pdf" ||
+      fileType === "image/png" ||
+      fileType === "image/jpeg"
+    ) {
+      setFile(selectedFile); // Assume setFile is in scope
     } else {
-      alert("Please upload a PDF, PNG, or JPG file.")
+      alert("Please upload a PDF, PNG, or JPG file.");
     }
-  }, [])
+  }, []);
+  
 
-  const handleUpload = useCallback(() => {
-    if (!file) return
+  const handleUpload = useCallback(async () => {
+    if (!file) return;
 
-    setIsUploading(true)
-    setShowProgress(true)
+    const fileType = file.type;
+    let endpoint = '';
+    let formKey = '';
 
-    // Simulate upload progress
-    let progress = 0
-    const interval = setInterval(() => {
-      progress += Math.random() * 10
-      if (progress > 100) {
-        progress = 100
-        clearInterval(interval)
+    if (fileType === 'application/pdf') {
+      endpoint = 'http://localhost:5000/processPdf';
+      formKey = 'pdf';
+    } else if (fileType === 'image/png' || fileType === 'image/jpeg') {
+      endpoint = 'http://localhost:5000/processImage';
+      formKey = 'image';
+    } else {
+      alert('Unsupported file type');
+      return;
+    }
 
-        // After upload completes, navigate to processing page
-        setTimeout(() => {
-          router.push(`/processing?fileName=${encodeURIComponent(file.name)}`)
-        }, 500)
+    const formData = new FormData();
+    
+    formData.append(formKey, file);
+    console.log('Form data:', formData.get(formKey))
+    
+    try {
+      setIsUploading(true);
+      setShowProgress(true);
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.status}`);
       }
-      setUploadProgress(progress)
-    }, 200)
-  }, [file, router])
+
+      const data = await response.json();
+      console.log('Server response:', data);
+
+      // Simulate upload progress
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          setTimeout(() => {
+            router.push(`/processing?fileName=${encodeURIComponent(file.name)}`);
+          }, 500);
+        }
+        setUploadProgress(progress);
+      }, 200);
+
+    } catch (err) {
+      console.error('Upload error:', err);
+      alert('Failed to upload.');
+    } finally {
+      setIsUploading(false);
+    }
+  }, [file, router]);
+  
 
   const clearFile = useCallback(() => {
     setFile(null)

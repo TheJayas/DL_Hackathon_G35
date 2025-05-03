@@ -33,10 +33,10 @@ def combine_csv_tables(csv_dir, max_files=1):
     return combined_text
 
 def load_llama3_pipeline():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, token=os.getenv("HF_TOKEN"))
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, token="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")
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        token=os.getenv("HF_TOKEN"),
+        token="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",
         torch_dtype=torch.float16,
         device_map="auto"
     )
