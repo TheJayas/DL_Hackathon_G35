@@ -14,7 +14,6 @@ def ask_structure(file_path):
       '0' => has header (start new group)
       '1' => no header (append to previous group)
     """
-    # Read preview: headers + first rows
     try:
         df = pd.read_csv(file_path, nrows=5)
         preview = df.to_csv(index=False)
