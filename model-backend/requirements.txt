@@ -12,4 +12,4 @@ accelerate
 matplotlib
 paddleocr
 paddlepaddle
-cloudinary`
+cloudinary
