@@ -33,10 +33,9 @@ def combine_csv_tables(csv_dir, max_files=1):
     return combined_text
 
 def load_llama3_pipeline():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME,token="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")
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        token="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",
         torch_dtype=torch.float16,
         device_map="auto"
     )
@@ -97,7 +96,7 @@ def process_image_route():
 def process_pdf_route():
     data = request.get_json()
     pdf_path = data.get('pdf_path')
-    output_dir = "/extracted_tables"
+    output_dir = r"C:\Users\\rudra\OneDrive\Desktop\DL_Hackathon_G35\model-backend\extracted_tables"
 
     if not pdf_path or not os.path.exists(pdf_path):
         return jsonify({"error": "Invalid PDF path"}), 400
