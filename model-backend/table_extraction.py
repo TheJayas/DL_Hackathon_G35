@@ -8,6 +8,7 @@ import numpy as np
 import easyocr
 import pandas as pd
 from tqdm import tqdm
+from extract_table import visualize_detected_tables
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -117,14 +118,14 @@ def apply_ocr(cell_coordinates, cropped_table, reader):
 
     return data
 
-def process_pdf(pdf_path, output_dir):
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+def process_pdf(pdf_path):
+    # if not os.path.exists(output_dir):
+    #     os.makedirs(output_dir)
 
     pages = convert_from_path(pdf_path, dpi=300, poppler_path=r"C:\poppler-24.08.0\Library\bin")
 
     reader = easyocr.Reader(['en'])
-
+    num_tables = 0
     for page_num, image in enumerate(tqdm(pages, desc="Processing pages")):
 
         pixel_values = detection_transform(image).unsqueeze(0).to(device)
@@ -133,11 +134,13 @@ def process_pdf(pdf_path, output_dir):
 
         id2label = table_detector.config.id2label
         id2label[len(id2label)] = "no object"
-        objects = outputs_to_objects(outputs, image.size, id2label)
+        objects = outputs_to_objects(outputs, image.size, id2label)                                                             
+        fig = visualize_detected_tables(image, objects, f'detected_table_{page_num}.jpg')
 
         for idx, obj in enumerate(objects):
             bbox = obj['bbox']
             cropped_table = image.crop(bbox).convert("RGB")
+            cropped_table.save(f"cropped_table_{num_tables}.jpg")
 
             pixel_values = structure_transform(cropped_table).unsqueeze(0).to(device)
             with torch.no_grad():
@@ -147,17 +150,27 @@ def process_pdf(pdf_path, output_dir):
             structure_id2label[len(structure_id2label)] = "no object"
             cells = outputs_to_objects(outputs, cropped_table.size, structure_id2label)
 
+            cropped_table_visualized = cropped_table.copy()
+            draw = ImageDraw.Draw(cropped_table_visualized)
+
+            for cell in cells:
+                draw.rectangle(cell["bbox"], outline="red")
+
+            cropped_table_visualized.save(f"table_structure_{num_tables}.jpg")
+            num_tables += 1
+
             cell_coordinates = get_cell_coordinates_by_row(cells)
             data = apply_ocr(cell_coordinates, cropped_table, reader)
 
             # Save to CSV
             csv_filename = f"page_{page_num+1}_table_{idx+1}.csv"
-            csv_path = os.path.join(output_dir, csv_filename)
+            csv_path = csv_filename
             with open(csv_path, 'w', encoding='utf-8') as f:
                 for row in data.values():
                     f.write(','.join(row) + '\n')
 
             print(f"Saved table to {csv_path}")
+    return page_num+1, num_tables
 
 # pdf_path = "ca-warn-report.pdf"
 # output_dir = "extracted_tables"
