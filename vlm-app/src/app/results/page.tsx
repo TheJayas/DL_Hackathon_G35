@@ -1,5 +1,5 @@
 "use client"
-
+import CsvViewer from "@/components/ui/csvviewer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -41,6 +41,20 @@ The final section summarizes the key points and provides conclusions.
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
+  // utils/downloadCSV.ts
+
+ function downloadCSV(csvContent: string, filename = 'data.csv') {
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -314,7 +328,7 @@ The final section summarizes the key points and provides conclusions.
                         <Copy className="h-4 w-4" />
                         Copy Data
                       </Button>
-                      <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]">
+                      <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]" onClick={()=>downloadCSV( "Salt Concentration (%),<Trial #1,1 Trial #2,ransmittance (%) Trial #3,Trial #4,: Trial #5\n\nConcentration (%},<Trial #1,Trial #2,Trial #3,Trial #4,( Trial #5\n\n77.23,.74.50 , 64.88, 75.27,54.66,\n\n3:,85.23,92.82,;78.91;,60.71,57.96\n\n6:,88.39,100.05,73.66,66.51,64.54\n\n9,80.71,100.05,68.29,64.91,52.96\n\n12.,82.66 .,117.18,(71.01),( 56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n")}>
                         <Download className="h-4 w-4" />
                         Export CSV
                       </Button>
@@ -323,7 +337,7 @@ The final section summarizes the key points and provides conclusions.
                 </CardHeader>
                 <CardContent className="p-6 bg-white">
                   <div className="border rounded-lg overflow-auto shadow-inner">
-                    <table className="w-full caption-bottom text-sm">
+                    {/* <table className="w-full caption-bottom text-sm">
                       <thead>
                         <tr className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] text-white">
                           <th className="h-12 px-4 text-left align-middle font-medium">Product</th>
@@ -358,7 +372,8 @@ The final section summarizes the key points and provides conclusions.
                           <td className="p-4 align-middle text-green-600">+17%</td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> */}
+                    <CsvViewer csvData={"Salt Concentration (%),<Trial #1,1 Trial #2,ransmittance (%) Trial #3,Trial #4,: Trial #5\n\nConcentration (%},<Trial #1,Trial #2,Trial #3,Trial #4,( Trial #5\n\n77.23,.74.50 , 64.88, 75.27,54.66,\n\n3:,85.23,92.82,;78.91;,60.71,57.96\n\n6:,88.39,100.05,73.66,66.51,64.54\n\n9,80.71,100.05,68.29,64.91,52.96\n\n12.,82.66 .,117.18,(71.01),( 56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n"} />
                   </div>
                   <div className="mt-6 border rounded-lg p-4 bg-gray-50">
                     <h3 className="font-medium text-[#1E3A8A] mb-2">Table Analysis</h3>
