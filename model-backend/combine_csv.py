@@ -160,6 +160,8 @@ def combine(input_dir=CSV_DIR, output_dir=output_dir):
             print(f"❌ Unexpected error while processing {filename}: {e}")
 
     for idx, (cols, df) in enumerate(groups, start=1):
-        out_path = os.path.join(output_dir, f"combined_group_{idx}.csv")
+        out_path = f"combined_group_{idx}.csv"
         df.to_csv(out_path, index=False)
         print(f"✅ Group {idx}: {len(df)} rows → {out_path}")
+    
+    return idx+1

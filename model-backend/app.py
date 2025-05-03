@@ -79,10 +79,10 @@ def process_image_route():
     table_structure_url = upload_image('table_structure.jpg')
     with open('output.csv', 'r') as file:
         csv_content = file.read()
-    return jsonify({"message": "Image processed successfully", "csv_content": csv_content, 
-                    "detected_table_url": detected_table_url, 
-                    "cropped_table_url": cropped_table_url, 
-                    "table_structure_url": table_structure_url}), 200
+    return jsonify({"message": "Image processed successfully", "csv_contents": [csv_content], 
+                    "detected_table_urls": [detected_table_url], 
+                    "cropped_table_urls": [cropped_table_url], 
+                    "table_structure_urls": [table_structure_url]}), 200
 
     
 @app.route('/processPdf', methods=['POST'])
@@ -96,15 +96,32 @@ def process_pdf_route():
         return 'No selected file', 400
     pdf_path = os.path.join('uploads', file.filename)
     file.save(pdf_path)
-    output_dir = r"C:\Users\\rudra\OneDrive\Desktop\DL_Hackathon_G35\model-backend\extracted_tables"
 
     if not pdf_path or not os.path.exists(pdf_path):
         return jsonify({"error": "Invalid PDF path"}), 400
 
-    process_pdf(pdf_path, output_dir)
-    combine()
-    return jsonify({"message": "PDF processed successfully"}), 200
-
+    page_num, num_table = process_pdf(pdf_path)
+    total_tables = combine()
+    detected_table_urls = []
+    for i in range(page_num):
+        detected_table_url = upload_image(f"detected_table_{i}.jpg")
+        detected_table_urls.append(detected_table_url)
+    cropped_table_urls = []
+    table_structure_urls = []
+    for i in range(num_table):
+        cropped_table_url = upload_image(f"cropped_table_{i}.jpg")
+        table_structure_url = upload_image(f"table_structure_{i}.jpg")
+        cropped_table_urls.append(cropped_table_url)
+        table_structure_urls.append(table_structure_url)
+    csv_contents = []
+    for i in range(total_tables):
+        with open(f"combined_group__{i}.csv", 'r') as file:
+            csv_content = file.read()
+            csv_contents.append(csv_content)
+    return jsonify({"message": "PDF processed successfully", "csv_contents": csv_contents, 
+                    "detected_table_urls": detected_table_urls, 
+                    "cropped_table_urls": cropped_table_urls, 
+                    "table_structure_urls": table_structure_urls}), 200
 
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
