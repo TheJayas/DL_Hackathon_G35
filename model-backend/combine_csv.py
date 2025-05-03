@@ -4,8 +4,8 @@ from google import genai
 
 client = genai.Client(api_key="AIzaSyBOOd1zVPmmstWvSn8L2AC0njqxiKi_QgI")
 
-CSV_DIR = "./extracted_tables"
-output_dir = "./grouped_csvs"
+CSV_DIR = "./"
+output_dir = "./"
 
 def ask_structure(file_path):
     """
@@ -118,6 +118,15 @@ def combine(input_dir=CSV_DIR, output_dir=output_dir):
             print(f"  LLM says: {'HEADER' if flag == '0' else 'NO HEADER'}")
 
             if flag == '0' or not groups:
+                # Ensure all rows in the CSV have the same number of columns
+                with open(path, 'r') as file:
+                    lines = file.readlines()
+
+                max_columns = max(len(line.split(',')) for line in lines)
+                with open(path, 'w') as file:
+                    for line in lines:
+                        columns = line.strip().split(',')
+                        file.write(','.join(columns + [''] * (max_columns - len(columns))) + '\n')
                 df = pd.read_csv(path, on_bad_lines='skip', dtype=str, keep_default_na=False)
                 if df.empty:
                     print(f"⚠️ Skipping empty dataframe from file: {filename}")
@@ -164,4 +173,4 @@ def combine(input_dir=CSV_DIR, output_dir=output_dir):
         df.to_csv(out_path, index=False)
         print(f"✅ Group {idx}: {len(df)} rows → {out_path}")
     
-    return idx+1
+    return idx

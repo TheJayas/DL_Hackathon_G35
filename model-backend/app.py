@@ -115,7 +115,7 @@ def process_pdf_route():
         table_structure_urls.append(table_structure_url)
     csv_contents = []
     for i in range(total_tables):
-        with open(f"combined_group__{i}.csv", 'r') as file:
+        with open(f"combined_group_{i+1}.csv", 'r') as file:
             csv_content = file.read()
             csv_contents.append(csv_content)
     return jsonify({"message": "PDF processed successfully", "csv_contents": csv_contents, 
