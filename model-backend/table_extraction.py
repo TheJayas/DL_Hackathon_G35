@@ -121,7 +121,7 @@ def process_pdf(pdf_path, output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    pages = convert_from_path(pdf_path, dpi=300)
+    pages = convert_from_path(pdf_path, dpi=300, poppler_path=r"C:\poppler-24.08.0\Library\bin")
 
     reader = easyocr.Reader(['en'])
 
