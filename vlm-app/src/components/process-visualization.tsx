@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, use } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -68,20 +68,20 @@ const processSteps = [
 ]
 
 // Sample document structure images for the carousel at step 3
-const documentStructureImages = [
-  {
-    id: 1,
-    src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Table Structure",
-    caption: "Table Structure",
-  },
-  {
-    id: 2,
-    src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Table Structure",
-    caption: "Table Structure",
-  }
-]
+// const documentStructureImages = [
+//   {
+//     id: 1,
+//     src: "/placeholder.svg?height=300&width=400",
+//     alt: "Document Table Structure",
+//     caption: "Table Structure",
+//   },
+//   {
+//     id: 2,
+//     src: "/placeholder.svg?height=300&width=400",
+//     alt: "Document Table Structure",
+//     caption: "Table Structure",
+//   }
+// ]
 const stepPositions = [
     { left: "12.5%", width: "105px", height: "87px",top : 217 },  // PDF to Image
     { left: "29.3%", width: "128px", height: "141px",top : 243 },  // Table Detection
@@ -107,6 +107,19 @@ interface ProcessVisualizationProps {
   fileName: string
   onProcessComplete: () => void
 }
+interface ProcessingData {
+  message: string;
+  csv_content: string;
+  detected_table_url: string[];
+  cropped_table_url:  string[];
+  table_structure_url:  string[];
+}
+interface DocumentImage {
+  id: number;
+  src: string;
+  alt: string;
+  caption: string;
+}
 
 export default function ProcessVisualization({ fileName, onProcessComplete }: ProcessVisualizationProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -117,7 +130,25 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
   const [isProcessing, setIsProcessing] = useState(true)
   const [isPaused, setIsPaused] = useState(false)
   const [currentStructureImage, setCurrentStructureImage] = useState(0)
+  const [documentStructureImages, setDocumentStructureImages] = useState<DocumentImage[]>([]);
 
+  const [data, setData] = useState<ProcessingData | null>(null);
+  useEffect(() => {
+  const storedData = localStorage.getItem("processingResponse");
+  if (storedData) {
+    const response = JSON.parse(storedData);
+    setData(response);
+    const images: DocumentImage[] = response.table_structure_url.map((url:any, idx:any) => ({
+      id: idx + 1,
+      src: url,
+      alt: `Document Table Structure ${idx + 1}`,
+      caption: `Table Structure ${idx + 1}`, 
+    }));
+
+    setDocumentStructureImages(images);
+    // Use response data here
+    console.log(response);}
+  }, []);
   const scrollAmount = 300 // Amount to scroll on each arrow click
   const structureScrollAmount = 400 // Amount to scroll for structure images
 
