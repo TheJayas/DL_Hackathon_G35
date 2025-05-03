@@ -36,7 +36,7 @@ export default function ProcessingPage() {
       </main>
 
       <footer className="border-t bg-white">
-        <div className="container px-4 py-6 md:px-6 flex flex-col sm:flex-row justify-between items-center">
+        <div className=" px-4 py-6 md:px-6 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} VLM Document Processor. All rights reserved.
           </p>
