@@ -13,3 +13,4 @@ matplotlib
 paddleocr
 paddlepaddle
 cloudinary
+google-genai
