@@ -22,11 +22,11 @@ export default function Home() {
                 Features
               </Button>
             </Link>
-            <Link href="#examples">
+            {/* <Link href="#examples">
               <Button variant="ghost" className="text-gray-600 hover:text-[#1E3A8A]">
                 Examples
               </Button>
-            </Link>
+            </Link> */}
             <Button className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
               Get Started
             </Button>
@@ -36,7 +36,7 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        <section className="w-full py-12 md:py-12 lg:py-12 xl:py-12 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden pl-6">
           <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none"></div>
           <div className="container px-4 md:px-6 relative z-10">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
@@ -47,10 +47,10 @@ export default function Home() {
                 </div>
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#1E3A8A]">
-                    Extract Insights From Your Documents
+                    Extract Tables From Your Documents
                   </h1>
                   <p className="max-w-[600px] text-gray-600 md:text-xl">
-                    Our advanced Visual Language Model analyzes your documents and extracts text, images, and tables
+                    Our advanced Visual Language Model analyzes your documents and extracts tables
                     with unparalleled accuracy.
                   </p>
                 </div>
@@ -58,12 +58,14 @@ export default function Home() {
                   <Button className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity h-11 px-8">
                     Try It Now
                   </Button>
-                  <Button variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10 h-11 px-8">
-                    Learn More
-                  </Button>
+                  <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
+                    <Button variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10 h-11 px-8">
+                      Learn More
+                    </Button>
+                  </Link>
                 </div>
                 <div className="flex items-center gap-4 pt-4">
-                  <div className="flex -space-x-2">
+                  {/* <div className="flex -space-x-2">
                     {[1, 2, 3, 4].map((i) => (
                       <div
                         key={i}
@@ -75,7 +77,7 @@ export default function Home() {
                   </div>
                   <div className="text-sm text-gray-500">
                     Trusted by <span className="font-medium text-[#1E3A8A]">10,000+</span> professionals
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="mx-auto lg:mx-0 w-full max-w-[500px] relative">
@@ -104,39 +106,11 @@ export default function Home() {
                   Advanced Document Processing
                 </h2>
                 <p className="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto">
-                  Our Visual Language Model uses cutting-edge AI to extract and analyze content from your documents
+                  Our Visual Language Model uses cutting-edge AI to extract and analyze tables from your documents
                 </p>
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4 rounded-xl border bg-gradient-to-b from-white to-gray-50 p-6 shadow-lg transition-all hover:shadow-xl">
-                <div className="rounded-full bg-[#1E3A8A]/10 p-3 w-12 h-12 flex items-center justify-center">
-                  <FileText className="h-6 w-6 text-[#1E3A8A]" />
-                </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A]">Text Extraction</h3>
-                <p className="text-gray-600">
-                  Accurately extract and format text content from documents, preserving headings, paragraphs, and lists.
-                </p>
-                <div className="pt-2">
-                  <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
-                    Learn more <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              <div className="flex flex-col justify-center space-y-4 rounded-xl border bg-gradient-to-b from-white to-gray-50 p-6 shadow-lg transition-all hover:shadow-xl">
-                <div className="rounded-full bg-[#1E3A8A]/10 p-3 w-12 h-12 flex items-center justify-center">
-                  <ImageIcon className="h-6 w-6 text-[#1E3A8A]" />
-                </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A]">Image Recognition</h3>
-                <p className="text-gray-600">
-                  Detect and extract images with bounding box visualization, identifying charts, diagrams, and photos.
-                </p>
-                <div className="pt-2">
-                  <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
-                    Learn more <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
               <div className="flex flex-col justify-center space-y-4 rounded-xl border bg-gradient-to-b from-white to-gray-50 p-6 shadow-lg transition-all hover:shadow-xl">
                 <div className="rounded-full bg-[#1E3A8A]/10 p-3 w-12 h-12 flex items-center justify-center">
                   <Table className="h-6 w-6 text-[#1E3A8A]" />
@@ -146,9 +120,43 @@ export default function Home() {
                   Convert complex tables from documents into structured data that can be analyzed and exported.
                 </p>
                 <div className="pt-2">
+                <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
                   <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
                     Learn more <ChevronRight className="h-4 w-4" />
                   </Button>
+                </Link>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center space-y-4 rounded-xl border bg-gradient-to-b from-white to-gray-50 p-6 shadow-lg transition-all hover:shadow-xl">
+                <div className="rounded-full bg-[#1E3A8A]/10 p-3 w-12 h-12 flex items-center justify-center">
+                  <FileText className="h-6 w-6 text-[#1E3A8A]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1E3A8A]">PDF Recognition</h3>
+                <p className="text-gray-600">
+                  Accurately extract and format table content from pdfs, preserving headings, paragraphs, and lists.
+                </p>
+                <div className="pt-2">
+                <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
+                  <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
+                    Learn more <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center space-y-4 rounded-xl border bg-gradient-to-b from-white to-gray-50 p-6 shadow-lg transition-all hover:shadow-xl">
+                <div className="rounded-full bg-[#1E3A8A]/10 p-3 w-12 h-12 flex items-center justify-center">
+                  <ImageIcon className="h-6 w-6 text-[#1E3A8A]" />
+                </div>
+                <h3 className="text-xl font-bold text-[#1E3A8A]">Image Recognition</h3>
+                <p className="text-gray-600">
+                  Detect and extract tables from images with bounding box visualization, identifying charts, diagrams, and photos.
+                </p>
+                <div className="pt-2">
+                <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
+                  <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
+                    Learn more <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </Link>
                 </div>
               </div>
             </div>
@@ -194,7 +202,7 @@ export default function Home() {
                   </div>
                 </div>
                 <h3 className="text-xl font-bold text-[#1E3A8A]">Process</h3>
-                <p className="text-gray-600">Our AI analyzes your document, identifying text, images, and tables</p>
+                <p className="text-gray-600">Our AI analyzes your document, identifying tables</p>
               </div>
               <div className="flex flex-col items-center text-center space-y-4">
                 <div className="relative">
@@ -213,7 +221,7 @@ export default function Home() {
         </section>
 
         {/* Examples Section */}
-        <section id="examples" className="w-full py-12 md:py-24 lg:py-32 bg-white">
+        {/* <section id="examples" className="w-full py-12 md:py-24 lg:py-32 bg-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -287,10 +295,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-[#1E3A8A]">
+        {/* <section className="w-full py-12 md:py-24 lg:py-32 bg-[#1E3A8A]">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -310,14 +318,13 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
-
       <footer className="border-t bg-white">
-        <div className="container px-4 py-8 md:px-6 lg:py-12">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
+        <div className="container px-4 py-8 md:px-6 lg:py-12 items-center justify-center text-3xl">
+          <div className="w-full ">
+            <div className="space-y-4 justify-center items-center text-center">
+              <div className="flex gap-2 justify-center items-center text-center">
                 <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] flex items-center justify-center shadow-md">
                   <span className="text-white font-bold text-xs">VLM</span>
                 </div>
@@ -325,7 +332,7 @@ export default function Home() {
               </div>
               <p className="text-sm text-gray-500">Advanced document processing powered by Visual Language Models.</p>
             </div>
-            <div>
+            {/* <div>
               <h3 className="font-medium text-[#1E3A8A] mb-3">Product</h3>
               <ul className="space-y-2 text-sm">
                 <li>
@@ -384,7 +391,7 @@ export default function Home() {
                   </Link>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
           <div className="mt-8 border-t pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-500">
