@@ -8,3 +8,8 @@ numpy
 easyocr
 pdf2image
 tqdm
+accelerate
+matplotlib
+paddleocr
+paddlepaddle
+cloudinary

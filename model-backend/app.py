@@ -7,6 +7,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sys
 from table_extraction import process_pdf
+from extract_table import extract_csv
+from cloudinary_util import upload_image
 
 
 CSV_DIR = "extracted_tables"  
@@ -31,10 +33,10 @@ def combine_csv_tables(csv_dir, max_files=1):
     return combined_text
 
 def load_llama3_pipeline():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME,token=os.getenv("HF_TOKEN"))
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME,token="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")
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        token=os.getenv("HF_TOKEN"),
+        token="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",
         torch_dtype=torch.float16,
         device_map="auto"
     )
@@ -70,6 +72,27 @@ def ask():
 
     return jsonify({"answer": answer}), 200
 
+@app.route('/processImage', methods=['POST'])
+def process_image_route():
+    if 'image' not in request.files:
+        return 'No file part', 400
+    file = request.files['image']
+    if file.filename == '':
+        return 'No selected file', 400
+    save_path = os.path.join('uploads', file.filename)
+    file.save(save_path)
+    extract_csv(save_path)
+    detected_table_url = upload_image('detected_table.jpg')
+    cropped_table_url = upload_image('cropped_table.jpg')
+    table_structure_url = upload_image('table_structure.jpg')
+    with open('output.csv', 'r') as file:
+        csv_content = file.read()
+    return jsonify({"message": "Image processed successfully", "csv_content": csv_content, 
+                    "detected_table_url": detected_table_url, 
+                    "cropped_table_url": cropped_table_url, 
+                    "table_structure_url": table_structure_url}), 200
+
+    
 @app.route('/processPdf', methods=['POST'])
 def process_pdf_route():
     data = request.get_json()
