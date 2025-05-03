@@ -220,7 +220,7 @@ export default function ProcessCarousel({ fileName, onProcessComplete }: Process
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {processSteps.map((step) => (
-          <div key={step.id} className="flex-shrink-0 w-[250px] snap-start p-5"> {/* Added padding */}
+          <div key={step.id} className="flex-shrink-0 w-[250px] snap-start">
             <div
               className={`${step.color} rounded-lg shadow-md overflow-hidden border ${step.borderColor} h-full transition-all duration-300 ${
                 activeStep === step.id
@@ -233,7 +233,7 @@ export default function ProcessCarousel({ fileName, onProcessComplete }: Process
             >
               {/* Rest of your card content remains the same */}
               <div className="relative h-[150px] bg-gray-100">
-                <Image src={step.image || "/placeholder.svg"} alt={step.caption} fill className="object-cover" />
+                <Image src={ step.image || "/placeholder.svg"} alt={step.caption} fill className="object-cover" />
                 <div
                   className={`absolute top-2 left-2 ${
                     activeStep >= step.id ? "bg-[#1E3A8A]" : "bg-gray-400"

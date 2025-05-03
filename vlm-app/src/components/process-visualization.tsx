@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, use } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight, Play } from "lucide-react"
+import { ChevronLeft, ChevronRight, Play, Image as ImageIcon, Sheet, Brain, ScanText, FormInput, FileSpreadsheet, Bot } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import img1 from "../../public/flow.png"
 
@@ -10,7 +10,7 @@ import img1 from "../../public/flow.png"
 const processSteps = [
   {
     id: 1,
-    image: "/placeholder.svg?height=200&width=200",
+    image: ImageIcon,
     caption: "PDF to Image",
     description: "Converting PDF documents into image format for processing",
     color: "bg-amber-50",
@@ -18,7 +18,7 @@ const processSteps = [
   },
   {
     id: 2,
-    image: "/placeholder.svg?height=200&width=200",
+    image: Sheet,
     caption: "Table Detection",
     description: "Identifying and locating tables within the document",
     color: "bg-blue-50",
@@ -26,7 +26,7 @@ const processSteps = [
   },
   {
     id: 3,
-    image: "/placeholder.svg?height=200&width=200",
+    image: Brain,
     caption: "Structure Recognition",
     description: "Analyzing the document structure and layout",
     color: "bg-amber-50",
@@ -35,7 +35,7 @@ const processSteps = [
   },
   {
     id: 4,
-    image: "/placeholder.svg?height=200&width=200",
+    image: ScanText,
     caption: "OCR",
     description: "Extracting text from images using Optical Character Recognition",
     color: "bg-amber-50",
@@ -43,7 +43,7 @@ const processSteps = [
   },
   {
     id: 5,
-    image: "/placeholder.svg?height=200&width=200",
+    image: FormInput,
     caption: "Form Prompt",
     description: "Creating structured prompts based on document content",
     color: "bg-amber-50",
@@ -51,7 +51,7 @@ const processSteps = [
   },
   {
     id: 6,
-    image: "/placeholder.svg?height=200&width=200",
+    image: FileSpreadsheet,
     caption: "CSV Export",
     description: "Exporting structured data to CSV format",
     color: "bg-amber-50",
@@ -59,7 +59,7 @@ const processSteps = [
   },
   {
     id: 7,
-    image: "/placeholder.svg?height=200&width=200",
+    image: Bot,
     caption: "LLM Processing",
     description: "Using Large Language Models to interpret document content",
     color: "bg-green-50",
@@ -216,10 +216,6 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
     }
   }
 
-  // const resumeProcessing = () => {
-  //   setIsPaused(!isPaused);
-  // }
-
   // Simulate processing through each step
   useEffect(() => {
     if (!isProcessing || isPaused) return
@@ -239,7 +235,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
         }
 
         // Check if we should pause at this step
-        const nextStep = processSteps[activeStep]
+        // const nextStep = processSteps[activeStep]
         // if (nextStep && nextStep.pauseHere) {
         //   setIsPaused(true)
         // }
@@ -252,10 +248,20 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
           onProcessComplete()
         }, 1000)
       }
-    }, 1500) // Time for each step
+    }, 1500)
 
     return () => clearInterval(interval)
   }, [activeStep, isProcessing, isPaused, onProcessComplete])
+
+  const structureResultsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (activeStep >= 2 && structureResultsRef.current) {
+      structureResultsRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'center' // or 'start', 'center', 'end'
+      });
+    }
+    }, [activeStep]);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
@@ -337,9 +343,11 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
               {isPaused ? "Resume" : "Pause"} Processing
             </Button>
           </div>
-      {/* Structure Recognition Images (only shown when paused at step 3) */}
+
       {activeStep == 2 && (
-        <div className="mb-10 mt-5 bg-white p-6 rounded-xl border shadow-lg">
+        <div className="mb-10 mt-5 bg-white p-6 rounded-xl border shadow-lg"
+            ref={structureResultsRef}
+        >
           <h3 className="text-xl font-semibold mb-4 text-[#1E3A8A]">Structure Recognition Results</h3>
           <p className="text-gray-600 mb-6">
             The document structure has been analyzed. Please review the detected structural elements below.
@@ -351,7 +359,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
             <div className="absolute top-1/2 left-4 -translate-y-1/2 z-10">
               <button
                 onClick={scrollStructureLeft}
-                className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
                 aria-label="Previous image"
                 disabled={currentStructureImage === 0}
               >
@@ -362,7 +370,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
             <div className="absolute top-1/2 right-4 -translate-y-1/2 z-10">
               <button
                 onClick={scrollStructureRight}
-                className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
                 aria-label="Next image"
                 disabled={currentStructureImage === documentStructureImages.length - 1}
               >
@@ -378,10 +386,10 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
               >
                 {documentStructureImages.map((image) => (
                   <div key={image.id} className="w-full flex-shrink-0">
-                    <div className="relative aspect-[4/3] bg-gray-100">
+                    <div className="relative bg-transparent flex justify-center items-center">
                       <img src={image.src || "/placeholder.svg"} alt={image.alt}  className="object-contain" />
                     </div>
-                    <div className="p-4 bg-gray-50 text-center">
+                    <div className="p-4  text-center">
                       <h4 className="font-medium text-[#1E3A8A]">Table Structure</h4>
                       <p className="text-sm text-gray-500">
                         {image.id}/{documentStructureImages.length}
@@ -409,7 +417,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                 <div className="absolute top-1/2 left-4 -translate-y-1/2 z-10">
                   <button
                     onClick={scrollStructureLeft}
-                    className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                    className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
                     aria-label="Previous image"
                     disabled={currentStructureImage === 0}
                   >
@@ -420,7 +428,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                 <div className="absolute top-1/2 right-4 -translate-y-1/2 z-10">
                   <button
                     onClick={scrollStructureRight}
-                    className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                    className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
                     aria-label="Next image"
                     disabled={currentStructureImage === documentStructureImages.length - 1}
                   >
@@ -436,10 +444,10 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                   >
                     {documentStructureImages.map((image) => (
                       <div key={image.id} className="w-full flex-shrink-0">
-                        <div className="relative aspect-[4/3] bg-gray-100">
+                        <div className="relative flex justify-center items-center bg-transparent">
                           <img src={image.src || "/placeholder.svg"} alt={image.alt}  className="object-contain" />
                         </div>
-                        <div className="p-4 bg-gray-50 text-center">
+                        <div className="p-4 text-center">
                           <h4 className="font-medium text-[#1E3A8A]">Table Structure</h4>
                           <p className="text-sm text-gray-500">
                             {image.id}/{documentStructureImages.length}
@@ -464,7 +472,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
         <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 z-10">
           <button
             onClick={scrollLeft}
-            className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-6 w-6" />
@@ -474,7 +482,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
         <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 z-10">
           <button
             onClick={scrollRight}
-            className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-6 w-6" />
@@ -484,7 +492,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
         {/* Carousel Container */}
         <div
           ref={carouselRef}
-          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 pb-6 px-2"
+          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 py-2 "
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {processSteps.map((step) => (
@@ -498,8 +506,12 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                       : "opacity-50"
                 }`}
               >
-                <div className="relative h-[150px] bg-gray-100">
-                  <Image src={step.image || "/placeholder.svg"} alt={step.caption} fill className="object-cover" />
+                <div className="relative h-[150px] bg-gray-200">
+                  {/* <Image src={step.image || "/placeholder.svg"} alt={step.caption} fill className="object-cover" /> */}
+                  <div className="h-full flex justify-center items-center">
+                    <step.image size={52} className="text-gray-700"/>
+                  </div>
+
                   <div
                     className={`absolute top-2 left-2 ${
                       activeStep >= step.id ? "bg-[#1E3A8A]" : "bg-gray-400"
