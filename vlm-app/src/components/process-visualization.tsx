@@ -192,9 +192,9 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
 
         // Check if we should pause at this step
         const nextStep = processSteps[activeStep]
-        if (nextStep && nextStep.pauseHere) {
-          setIsPaused(true)
-        }
+        // if (nextStep && nextStep.pauseHere) {
+        //   setIsPaused(true)
+        // }
       } else {
         clearInterval(interval)
         setIsProcessing(false)
@@ -280,7 +280,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
       </div>
 
       {/* Structure Recognition Images (only shown when paused at step 3) */}
-      {isPaused && activeStep === 3 && (
+      {activeStep >= 3 && (
         <div className="mb-10 bg-white p-6 rounded-xl border shadow-lg">
           <h3 className="text-xl font-semibold mb-4 text-[#1E3A8A]">Structure Recognition Results</h3>
           <p className="text-gray-600 mb-6">
