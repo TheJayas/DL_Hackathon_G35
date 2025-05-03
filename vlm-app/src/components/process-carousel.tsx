@@ -216,41 +216,43 @@ export default function ProcessCarousel({ fileName, onProcessComplete }: Process
         {/* Carousel Container */}
         <div
           ref={carouselRef}
-          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 pb-6 px-2"
+          className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 pb-6 px-2 h-full"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {processSteps.map((step) => (
-            <div key={step.id} className="flex-shrink-0 w-[250px] snap-start">
-              <div
-                className={`${step.color} rounded-lg shadow-md overflow-hidden border ${step.borderColor} h-full transition-all duration-300 ${
-                  activeStep === step.id
-                    ? "ring-2 ring-[#1E3A8A] transform scale-105"
-                    : activeStep > step.id
-                      ? "opacity-70"
-                      : "opacity-50"
-                }`}
-              >
-                <div className="relative h-[150px] bg-gray-100">
-                  <Image src={step.image || "/placeholder.svg"} alt={step.caption} fill className="object-cover" />
-                  <div
-                    className={`absolute top-2 left-2 ${
-                      activeStep >= step.id ? "bg-[#1E3A8A]" : "bg-gray-400"
-                    } text-white text-xs font-bold px-2 py-1 rounded-full transition-colors`}
-                  >
-                    Step {step.id}
+          <div key={step.id} className="flex-shrink-0 w-[250px] snap-start p-5"> {/* Added padding */}
+            <div
+              className={`${step.color} rounded-lg shadow-md overflow-hidden border ${step.borderColor} h-full transition-all duration-300 ${
+                activeStep === step.id
+                  ? "ring-2 ring-[#1E3A8A] transform scale-[1.02] -m-[2px]" // Reduced scale and negative margin
+                  : activeStep > step.id
+                    ? "opacity-70"
+                    : "opacity-50"
+              }`}
+              style={{ transformOrigin: 'center center' }} // Ensures even scaling
+            >
+              {/* Rest of your card content remains the same */}
+              <div className="relative h-[150px] bg-gray-100">
+                <Image src={step.image || "/placeholder.svg"} alt={step.caption} fill className="object-cover" />
+                <div
+                  className={`absolute top-2 left-2 ${
+                    activeStep >= step.id ? "bg-[#1E3A8A]" : "bg-gray-400"
+                  } text-white text-xs font-bold px-2 py-1 rounded-full transition-colors`}
+                >
+                  Step {step.id}
+                </div>
+                {activeStep > step.id && (
+                  <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold p-1 rounded-full">
+                    ✓
                   </div>
-                  {activeStep > step.id && (
-                    <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold p-1 rounded-full">
-                      ✓
-                    </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <h4 className="font-bold text-lg mb-1">{step.caption}</h4>
-                  <p className="text-sm text-gray-600">{step.description}</p>
-                </div>
+                )}
+              </div>
+              <div className="p-4">
+                <h4 className="font-bold text-lg mb-1">{step.caption}</h4>
+                <p className="text-sm text-gray-600">{step.description}</p>
               </div>
             </div>
+          </div>
           ))}
         </div>
       </div>
