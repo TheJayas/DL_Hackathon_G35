@@ -9,6 +9,8 @@ import sys
 from table_extraction import process_pdf
 from extract_table import extract_csv
 from cloudinary_util import upload_image
+from combine_csv import combine
+from mode_init import load_llama3_pipeline
 
 
 CSV_DIR = "extracted_tables"  
@@ -31,16 +33,6 @@ def combine_csv_tables(csv_dir, max_files=1):
             except Exception as e:
                 print(f"Skipping {filename} due to error: {e}")
     return combined_text
-
-def load_llama3_pipeline():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, token=os.getenv("HF_TOKEN"))
-    model = AutoModelForCausalLM.from_pretrained(
-        MODEL_NAME,
-        token=os.getenv("HF_TOKEN"),
-        torch_dtype=torch.float16,
-        device_map="auto"
-    )
-    return TextGenerationPipeline(model=model, tokenizer=tokenizer, max_new_tokens=512)
 
 
 def ask_llama3_about_tables(llm_pipeline, table_text, user_query):
@@ -110,6 +102,7 @@ def process_pdf_route():
         return jsonify({"error": "Invalid PDF path"}), 400
 
     process_pdf(pdf_path, output_dir)
+    combine()
     return jsonify({"message": "PDF processed successfully"}), 200
 
 
