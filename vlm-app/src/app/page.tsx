@@ -1,11 +1,15 @@
+"use client"
 import { Upload } from "@/components/upload"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, FileText, ImageIcon, Table, Zap } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react";
 
 export default function Home() {
+  const [id, setId] = useState<string | null>("Features");
+
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-100 to-gray-50">
       <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
         <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8 mx-auto">
           {/* Logo - Left aligned */}
@@ -22,12 +26,15 @@ export default function Home() {
 
           {/* Navigation - Right aligned with slight margin */}
           <div className="flex flex-1 items-center justify-end gap-4">
-            <Link href="#features">
+            <Link href={`#${id}`}>
               <Button
                 variant="ghost"
                 className="px-3 py-1.5 text-gray-600 hover:bg-gray-50 hover:text-[#1E3A8A]"
+                onClick={() => {
+                  id === "Features" ? setId("Process") : id === "Process" ? setId("Top") :setId("Features");
+                }}
               >
-                Features
+                {id}
               </Button>
             </Link>
             <Button
@@ -41,7 +48,7 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-12 lg:py-12 xl:py-12 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden pl-6">
+        <section id="Top" className="w-full py-12 md:py-12 lg:py-12 xl:py-12 bg-gradient-to-b from-gray-50 to-gray-100 relative overflow-hidden pl-6">
           <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none"></div>
           <div className="container px-4 md:px-6 relative z-10">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
@@ -100,7 +107,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
+        <section id="Features" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-100 to-gray-50">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -169,7 +176,7 @@ export default function Home() {
         </section>
 
         {/* How It Works */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
+        <section id="Process" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-50 to-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -325,7 +332,7 @@ export default function Home() {
           </div>
         </section> */}
       </main>
-      <footer className="border-t bg-white">
+      <footer className=" bg-transparent w-full flex justify-center items-center">
         <div className="container px-4 py-8 md:px-6 lg:py-12 items-center justify-center text-3xl">
           <div className="w-full ">
             <div className="space-y-4 justify-center items-center text-center">

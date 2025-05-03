@@ -390,12 +390,17 @@ The final section summarizes the key points and provides conclusions.
         </div>
       </main>
 
-      <footer className="border-t bg-white mt-12">
-        <div className="container px-4 py-6 md:px-6 flex flex-col sm:flex-row justify-between items-center">
+      <footer className="bg-white mt-12 w-full">
+      <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-6 md:px-6">
+        {/* Divider line */}
+        <div className="h-[1px] w-full bg-gray-300"></div>
+        
+        {/* Content container - now properly centered */}
+        <div className="mt-6 flex w-full flex-col items-center justify-between gap-4 sm:flex-row sm:gap-0">
           <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} VLM Document Processor. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 mt-4 sm:mt-0">
+          <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" className="text-gray-500 hover:text-[#1E3A8A]">
               Privacy Policy
             </Button>
@@ -404,7 +409,8 @@ The final section summarizes the key points and provides conclusions.
             </Button>
           </div>
         </div>
-      </footer>
+      </div>
+    </footer>
     </div>
   )
 }
