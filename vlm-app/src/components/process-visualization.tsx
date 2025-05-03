@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import img1 from "../../public/flow.png"
 
 // Process steps based on the flowchart
 const processSteps = [
@@ -93,6 +94,26 @@ const documentStructureImages = [
     caption: "Layout Analysis",
   },
 ]
+const stepPositions = [
+    { left: "12.5%", width: "105px", height: "87px",top : 217 },  // PDF to Image
+    { left: "29.3%", width: "128px", height: "141px",top : 243 },  // Table Detection
+    { left: "47.2%", width: "130px", height: "90px",top : 218 },  // Structure Recognition
+    { left: "62.5%", width: "82px", height: "86px",top : 216 },   // OCR
+    { left: "75.0%", width: "92px", height: "85px",top : 216 },  // Form Prompt
+    { left: "75.1%", width: "125px", height: "80px",top : 421 },   // USER
+  ];
+
+//   const activeBoxStyle = {
+//     position: "absolute",
+//     top: 240, // consistent Y to simulate linear left-to-right
+//     left: stepPositions[activeStep]?.left,
+//     width: stepPositions[activeStep]?.width,
+//     height: stepPositions[activeStep]?.height,
+//     opacity: 0.7,
+//     boxShadow: "0 0 0 4px rgba(30, 58, 138, 0.3)",
+//     transform: "translate(-50%, -50%)",
+//     transition: "all 0.4s ease-in-out",
+//   };
 
 interface ProcessVisualizationProps {
   fileName: string
@@ -196,9 +217,12 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
       <div className="relative w-full mb-10">
         <div className="aspect-[16/9] max-w-4xl mx-auto relative">
           <Image
-            src="/placeholder.svg?height=600&width=1000"
+          src={img1}
+          fill
+          
+        //   width={1000}
+            // src="../../public/flow.png"
             alt="Document Processing Workflow Diagram"
-            fill
             className="object-contain"
             priority
           />
@@ -213,10 +237,15 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                     opacity: 0.7,
                     boxShadow: "0 0 0 4px rgba(30, 58, 138, 0.3)",
                     // Position would need to be adjusted based on the actual diagram
-                    top: `${20 + (activeStep - 1) * 5}%`,
-                    left: `${20 + (activeStep - 1) * 10}%`,
-                    width: "100px",
-                    height: "80px",
+                    // top: `${20 + (activeStep - 1) * 5}%`,
+                    // left:0,
+                    left: stepPositions[activeStep-1]?.left,
+                    width: stepPositions[activeStep-1]?.width,
+                    height: stepPositions[activeStep-1]?.height,
+                    top: stepPositions[activeStep-1]?.top,
+                    // left: `${13 + (activeStep - 1) * 16}%`,
+                    // width: "130px",
+                    // height: "140px",
                     transform: "translate(-50%, -50%)",
                   }}
                 />
