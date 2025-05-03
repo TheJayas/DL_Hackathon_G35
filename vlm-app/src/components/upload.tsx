@@ -113,7 +113,7 @@ export function Upload() {
 
       const data = await response.json();
       console.log('Server response:', data);
-      localStorage.setItem("processingResponse", JSON.stringify(data));
+      await localStorage.setItem("processingResponse", JSON.stringify(data));
       progress=100;
       if (progress >= 100) {
         progress = 100;
