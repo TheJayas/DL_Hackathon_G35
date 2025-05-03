@@ -43,25 +43,33 @@ The final section summarizes the key points and provides conclusions.
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <header className="border-b bg-white sticky top-0 z-50 shadow-sm">
-        <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-sm">VLM</span>
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 shadow-sm backdrop-blur-sm">
+        <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8 mx-auto">
+          {/* Logo/Link Section */}
+          <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] shadow-md">
+              <span className="text-sm font-bold text-white">VLM</span>
             </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6]">
+            <span className="text-lg font-bold bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] bg-clip-text text-transparent sm:text-xl">
               VLM Document Processor
             </span>
           </Link>
-          <div className="flex items-center gap-4">
+
+          {/* Navigation Buttons */}
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link href="/">
-              <Button variant="ghost" className="text-gray-600 hover:text-[#1E3A8A]">
+              <Button 
+                variant="ghost" 
+                className="text-gray-600 hover:bg-gray-100 hover:text-[#1E3A8A] px-3 py-1.5"
+              >
                 Dashboard
               </Button>
             </Link>
-            <Button className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
-              New Upload
+            <Button 
+              className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] text-white hover:opacity-90 transition-opacity px-4 py-1.5"
+            >
+              <span className="hidden sm:inline">New</span> Upload
             </Button>
           </div>
         </div>
@@ -98,7 +106,7 @@ The final section summarizes the key points and provides conclusions.
               </Button>
             </div>
           </div>
-
+          <div  className="w-full max-w-3xl"> 
           <Tabs defaultValue="text" className="w-full">
             <TabsList className="grid w-full max-w-md grid-cols-3 p-1 rounded-xl bg-gray-100/80 backdrop-blur-sm">
               <TabsTrigger
@@ -125,8 +133,8 @@ The final section summarizes the key points and provides conclusions.
             </TabsList>
 
             <TabsContent value="text" className="mt-6">
-              <Card className="border-gray-200 shadow-xl overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b">
+              <Card className="border-gray-200 shadow-xl overflow-hidden ">
+                <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b pt-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-[#1E3A8A]">Extracted Text</CardTitle>
@@ -214,8 +222,8 @@ The final section summarizes the key points and provides conclusions.
             </TabsContent>
 
             <TabsContent value="images" className="mt-6">
-              <Card className="border-gray-200 shadow-xl overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b">
+              <Card className="border-gray-200 shadow-xl overflow-hidden w-full">
+                <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b pt-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-[#1E3A8A]">Extracted Images</CardTitle>
@@ -291,7 +299,7 @@ The final section summarizes the key points and provides conclusions.
 
             <TabsContent value="tables" className="mt-6">
               <Card className="border-gray-200 shadow-xl overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b">
+                <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b pt-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-[#1E3A8A]">Extracted Tables</CardTitle>
@@ -378,6 +386,7 @@ The final section summarizes the key points and provides conclusions.
               </Card>
             </TabsContent>
           </Tabs>
+          </div>
         </div>
       </main>
 
