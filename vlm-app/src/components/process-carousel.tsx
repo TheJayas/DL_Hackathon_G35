@@ -257,7 +257,7 @@ export default function ProcessCarousel({ fileName, onProcessComplete }: Process
 
       {/* Progress Bar */}
       <div className="mt-8 max-w-2xl mx-auto">
-        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-200 rounded-full overflow-hidden" >
           <div
             className="h-full bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] transition-all duration-500"
             style={{ width: `${(activeStep / processSteps.length) * 100}%` }}

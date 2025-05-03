@@ -147,9 +147,9 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
     }
   }
 
-  const resumeProcessing = () => {
-    setIsPaused(false)
-  }
+  // const resumeProcessing = () => {
+  //   setIsPaused(!isPaused);
+  // }
 
   // Simulate processing through each step
   useEffect(() => {
@@ -305,20 +305,21 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
               </div>
             </div>
           </div>
-
+      
+          </div>
+      )}
           {/* Resume Button */}
           <div className="mt-8 flex justify-center">
             <Button
-              onClick={resumeProcessing}
+              onClick={() => setIsPaused(!isPaused)}
               className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity px-8 py-6"
               size="lg"
             >
               <Play className="mr-2 h-5 w-5" />
-              Resume Processing
+              {isPaused ? "Resume" : "Pause"} Processing
             </Button>
           </div>
-        </div>
-      )}
+        
 
       {/* Step Carousel */}
       <div className="relative">

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { ChevronRight, FileText, ImageIcon, Table, Zap } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react";
-
 export default function Home() {
   const [id, setId] = useState<string | null>("Features");
 
