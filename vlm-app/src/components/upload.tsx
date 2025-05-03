@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect } from 'react';
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -13,7 +13,6 @@ export function Upload() {
   const router = useRouter()
   const [isDragging, setIsDragging] = useState(false)
   const [file, setFile] = useState<File | null>(null)
-  const [formData,setformData] = useState(new FormData());
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [showProgress, setShowProgress] = useState(false)
@@ -86,7 +85,23 @@ export function Upload() {
     try {
       setIsUploading(true);
       setShowProgress(true);
-
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 10;
+        console.log('Progress:', progress);
+        if (progress >= 90) { 
+          clearInterval(interval);
+        }
+        setUploadProgress(progress);
+        
+        // if (progress >= 100) {
+        //   progress = 100;
+        //   setTimeout(() => {
+        //     router.push(`/processing?fileName=${encodeURIComponent(file.name)}`);
+        //   }, 500);
+        // }
+      }, 200);
       const response = await fetch(endpoint, {
         method: 'POST',
         body: formData,
@@ -98,24 +113,24 @@ export function Upload() {
 
       const data = await response.json();
       console.log('Server response:', data);
-
+      await localStorage.setItem("processingResponse", JSON.stringify(data));
+      progress=100;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          router.push(`/processing?fileName=${encodeURIComponent(file.name)}`);
+        }, 500);
+      }
+      setUploadProgress(progress);
       // Simulate upload progress
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 10;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          setTimeout(() => {
-            router.push(`/processing?fileName=${encodeURIComponent(file.name)}`);
-          }, 500);
-        }
-        setUploadProgress(progress);
-      }, 200);
 
     } catch (err) {
       console.error('Upload error:', err);
       alert('Failed to upload.');
+      setShowProgress(false);
+      setIsUploading(false);
+      window.location.reload();
     } finally {
       setIsUploading(false);
     }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, use } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -68,20 +68,20 @@ const processSteps = [
 ]
 
 // Sample document structure images for the carousel at step 3
-const documentStructureImages = [
-  {
-    id: 1,
-    src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Table Structure",
-    caption: "Table Structure",
-  },
-  {
-    id: 2,
-    src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Table Structure",
-    caption: "Table Structure",
-  }
-]
+// const documentStructureImages = [
+//   {
+//     id: 1,
+//     src: "/placeholder.svg?height=300&width=400",
+//     alt: "Document Table Structure",
+//     caption: "Table Structure",
+//   },
+//   {
+//     id: 2,
+//     src: "/placeholder.svg?height=300&width=400",
+//     alt: "Document Table Structure",
+//     caption: "Table Structure",
+//   }
+// ]
 const stepPositions = [
     { left: "12.5%", width: "105px", height: "87px",top : 217 },  // PDF to Image
     { left: "29.3%", width: "128px", height: "141px",top : 243 },  // Table Detection
@@ -107,6 +107,19 @@ interface ProcessVisualizationProps {
   fileName: string
   onProcessComplete: () => void
 }
+interface ProcessingData {
+  message: string;
+  csv_contents: string[];
+  detected_table_urls: string[];
+  cropped_table_urls:  string[];
+  table_structure_urls:  string[];
+}
+interface DocumentImage {
+  id: number;
+  src: string;
+  alt: string;
+  caption: string;
+}
 
 export default function ProcessVisualization({ fileName, onProcessComplete }: ProcessVisualizationProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -117,10 +130,57 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
   const [isProcessing, setIsProcessing] = useState(true)
   const [isPaused, setIsPaused] = useState(false)
   const [currentStructureImage, setCurrentStructureImage] = useState(0)
+  const [documentStructureImages, setDocumentStructureImages] = useState<DocumentImage[]>([]);
 
+  const [data, setData] = useState<ProcessingData | null>({cropped_table_urls
+    : 
+    ['https://res.cloudinary.com/divc1cuwa/image/upload/v1746302730/ugneweljfrzo65diqiev.jpg']
+    ,csv_contents
+    : 
+    ['Salt Concentration (%),<Trial #1,1 Trial #2,ransmi…56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n']
+    ,detected_table_urls
+    : 
+    ['https://res.cloudinary.com/divc1cuwa/image/upload/v1746302730/m9gph71esqqa3zljhfov.jpg']
+    ,message
+    : 
+    "Image processed successfully"
+    ,table_structure_urls
+    : 
+    ['https://res.cloudinary.com/divc1cuwa/image/upload/v1746302731/xzhmwa02ij0eposp2bsk.jpg']});
+  useEffect( () => {
+    console.log("Processing Data:", data);
+    console.log(1111);
+    
+  const storedData = localStorage.getItem("processingResponse");
+  console.log("Stored Data:", storedData);
+  if (storedData) {
+    const response = JSON.parse(storedData);
+    // setData(response);
+    // const images: DocumentImage[] = response.table_structure_url.map((url:any, idx:any) => ({
+    //   id: idx + 1,
+    //   src: url,
+    //   alt: `Document Table Structure ${idx + 1}`,
+    //   caption: `Table Structure ${idx + 1}`, 
+    // }));
+ // Use response data here
+    console.log(response);}
+    console.log("Stored Data:", storedData);
+  
+    if(data){
+      const images: DocumentImage[] = data.table_structure_urls.map((url:string, idx:number) => ({
+        id: idx + 1,
+        src: url,
+        alt: `Document Table Structure ${idx + 1}`,
+        caption: `Table Structure ${idx + 1}`, 
+      }));
+      setDocumentStructureImages(images);
+      console.log("Document Structure Images:", images);
+    }
+
+  }, []);
   const scrollAmount = 300 // Amount to scroll on each arrow click
   const structureScrollAmount = 400 // Amount to scroll for structure images
-
+  
   const scrollLeft = () => {
     if (carouselRef.current) {
       const newPosition = Math.max(0, scrollPosition - scrollAmount)
@@ -319,7 +379,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                 {documentStructureImages.map((image) => (
                   <div key={image.id} className="w-full flex-shrink-0">
                     <div className="relative aspect-[4/3] bg-gray-100">
-                      <Image src={image.src || "/placeholder.svg"} alt={image.alt} fill className="object-contain" />
+                      <img src={image.src || "/placeholder.svg"} alt={image.alt}  className="object-contain" />
                     </div>
                     <div className="p-4 bg-gray-50 text-center">
                       <h4 className="font-medium text-[#1E3A8A]">Table Structure</h4>
@@ -377,7 +437,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                     {documentStructureImages.map((image) => (
                       <div key={image.id} className="w-full flex-shrink-0">
                         <div className="relative aspect-[4/3] bg-gray-100">
-                          <Image src={image.src || "/placeholder.svg"} alt={image.alt} fill className="object-contain" />
+                          <img src={image.src || "/placeholder.svg"} alt={image.alt}  className="object-contain" />
                         </div>
                         <div className="p-4 bg-gray-50 text-center">
                           <h4 className="font-medium text-[#1E3A8A]">Table Structure</h4>
