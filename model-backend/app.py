@@ -95,8 +95,15 @@ def process_image_route():
     
 @app.route('/processPdf', methods=['POST'])
 def process_pdf_route():
-    data = request.get_json()
-    pdf_path = data.get('pdf_path')
+    # data = request.get_json()
+    # pdf_path = data.get('pdf_path')
+    if 'pdf' not in request.files:
+        return 'No file part', 400
+    file = request.files['pdf']
+    if file.filename == '':
+        return 'No selected file', 400
+    pdf_path = os.path.join('uploads', file.filename)
+    file.save(pdf_path)
     output_dir = r"C:\Users\\rudra\OneDrive\Desktop\DL_Hackathon_G35\model-backend\extracted_tables"
 
     if not pdf_path or not os.path.exists(pdf_path):
