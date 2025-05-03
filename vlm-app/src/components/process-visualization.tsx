@@ -72,27 +72,15 @@ const documentStructureImages = [
   {
     id: 1,
     src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Header Structure",
-    caption: "Header Structure",
+    alt: "Document Table Structure",
+    caption: "Table Structure",
   },
   {
     id: 2,
     src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Body Structure",
-    caption: "Body Structure",
-  },
-  {
-    id: 3,
-    src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Footer Structure",
-    caption: "Footer Structure",
-  },
-  {
-    id: 4,
-    src: "/placeholder.svg?height=300&width=400",
-    alt: "Document Layout Analysis",
-    caption: "Layout Analysis",
-  },
+    alt: "Document Table Structure",
+    caption: "Table Structure",
+  }
 ]
 const stepPositions = [
     { left: "12.5%", width: "105px", height: "87px",top : 217 },  // PDF to Image
@@ -278,10 +266,20 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
           )}
         </div>
       </div>
-
+        {/* Resume Button */}
+        <div className="mt-8 flex justify-center">
+            <Button
+              onClick={() => setIsPaused(!isPaused)}
+              className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity px-8 py-6"
+              size="lg"
+            >
+              <Play className="mr-2 h-5 w-5" />
+              {isPaused ? "Resume" : "Pause"} Processing
+            </Button>
+          </div>
       {/* Structure Recognition Images (only shown when paused at step 3) */}
-      {activeStep >= 3 && (
-        <div className="mb-10 bg-white p-6 rounded-xl border shadow-lg">
+      {activeStep == 2 && (
+        <div className="mb-10 mt-5 bg-white p-6 rounded-xl border shadow-lg">
           <h3 className="text-xl font-semibold mb-4 text-[#1E3A8A]">Structure Recognition Results</h3>
           <p className="text-gray-600 mb-6">
             The document structure has been analyzed. Please review the detected structural elements below.
@@ -324,7 +322,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                       <Image src={image.src || "/placeholder.svg"} alt={image.alt} fill className="object-contain" />
                     </div>
                     <div className="p-4 bg-gray-50 text-center">
-                      <h4 className="font-medium text-[#1E3A8A]">{image.caption}</h4>
+                      <h4 className="font-medium text-[#1E3A8A]">Table Structure</h4>
                       <p className="text-sm text-gray-500">
                         {image.id}/{documentStructureImages.length}
                       </p>
@@ -337,17 +335,65 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
       
           </div>
       )}
-          {/* Resume Button */}
-          <div className="mt-8 flex justify-center">
-            <Button
-              onClick={() => setIsPaused(!isPaused)}
-              className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity px-8 py-6"
-              size="lg"
-            >
-              <Play className="mr-2 h-5 w-5" />
-              {isPaused ? "Resume" : "Pause"} Processing
-            </Button>
-          </div>
+
+    {activeStep >= 3 && (
+            <div className="mb-10 mt-5 bg-white p-6 rounded-xl border shadow-lg">
+              <h3 className="text-xl font-semibold mb-4 text-[#1E3A8A]">Structure Recognition Results</h3>
+              <p className="text-gray-600 mb-6">
+                The document structure has been analyzed. Please review the detected structural elements below.
+              </p>
+
+              {/* Structure Images Carousel */}
+              <div className="relative">
+                {/* Carousel Navigation Buttons */}
+                <div className="absolute top-1/2 left-4 -translate-y-1/2 z-10">
+                  <button
+                    onClick={scrollStructureLeft}
+                    className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                    aria-label="Previous image"
+                    disabled={currentStructureImage === 0}
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+                </div>
+
+                <div className="absolute top-1/2 right-4 -translate-y-1/2 z-10">
+                  <button
+                    onClick={scrollStructureRight}
+                    className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                    aria-label="Next image"
+                    disabled={currentStructureImage === documentStructureImages.length - 1}
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                </div>
+
+                {/* Images */}
+                <div className="overflow-hidden rounded-lg">
+                  <div
+                    className="flex transition-transform duration-300 ease-in-out"
+                    style={{ transform: `translateX(-${currentStructureImage * 100}%)` }}
+                  >
+                    {documentStructureImages.map((image) => (
+                      <div key={image.id} className="w-full flex-shrink-0">
+                        <div className="relative aspect-[4/3] bg-gray-100">
+                          <Image src={image.src || "/placeholder.svg"} alt={image.alt} fill className="object-contain" />
+                        </div>
+                        <div className="p-4 bg-gray-50 text-center">
+                          <h4 className="font-medium text-[#1E3A8A]">Table Structure</h4>
+                          <p className="text-sm text-gray-500">
+                            {image.id}/{documentStructureImages.length}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+          
+              </div>
+          )}
+          
         
 
       {/* Step Carousel */}
@@ -406,7 +452,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                       ✓
                     </div>
                   )}
-                  {step.pauseHere && (
+                  {isPaused && activeStep===step.id && (
                     <div className="absolute bottom-2 right-2 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                       Pause
                     </div>
