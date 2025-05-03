@@ -5,29 +5,34 @@ import Link from "next/link"
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <header className="border-b bg-white sticky top-0 z-50 shadow-sm">
-        <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-sm">VLM</span>
-            </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6]">
-              VLM Document Processor
-            </span>
-          </Link>
-          <div className="flex items-center gap-4">
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
+        <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8 mx-auto">
+          {/* Logo - Left aligned */}
+          <div className="flex flex-1 items-center justify-start">
+            <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] shadow-md">
+                <span className="text-sm font-bold text-white">VLM</span>
+              </div>
+              <span className="text-lg font-bold bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] bg-clip-text text-transparent sm:text-xl">
+                VLM Document Processor
+              </span>
+            </Link>
+          </div>
+
+          {/* Navigation - Right aligned with slight margin */}
+          <div className="flex flex-1 items-center justify-end gap-4">
             <Link href="#features">
-              <Button variant="ghost" className="text-gray-600 hover:text-[#1E3A8A]">
+              <Button
+                variant="ghost"
+                className="px-3 py-1.5 text-gray-600 hover:bg-gray-50 hover:text-[#1E3A8A]"
+              >
                 Features
               </Button>
             </Link>
-            {/* <Link href="#examples">
-              <Button variant="ghost" className="text-gray-600 hover:text-[#1E3A8A]">
-                Examples
-              </Button>
-            </Link> */}
-            <Button className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
+            <Button
+              className="px-4 py-1.5 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] text-white hover:opacity-90 transition-opacity"
+            >
               Get Started
             </Button>
           </div>
