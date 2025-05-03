@@ -1,2 +1,4 @@
 venv
 extracted_tables
+.env
+__pycache__

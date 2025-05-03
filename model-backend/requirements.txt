@@ -1,0 +1,10 @@
+pandas
+torch
+transformers
+flask
+flask-cors
+torchvision
+numpy
+easyocr
+pdf2image
+tqdm

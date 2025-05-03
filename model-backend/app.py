@@ -6,6 +6,8 @@ import torch
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sys
+from table_extraction import process_pdf
+
 
 CSV_DIR = "extracted_tables"  
 MODEL_NAME = "meta-llama/Llama-3.2-1B"  
@@ -67,6 +69,19 @@ def ask():
     answer = ask_llama3_about_tables(llm, table_text, user_query)
 
     return jsonify({"answer": answer}), 200
+
+@app.route('/processPdf', methods=['POST'])
+def process_pdf_route():
+    data = request.get_json()
+    pdf_path = data.get('pdf_path')
+    output_dir = "/extracted_tables"
+
+    if not pdf_path or not os.path.exists(pdf_path):
+        return jsonify({"error": "Invalid PDF path"}), 400
+
+    process_pdf(pdf_path, output_dir)
+    return jsonify({"message": "PDF processed successfully"}), 200
+
 
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
