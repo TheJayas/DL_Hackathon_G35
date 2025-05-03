@@ -68,10 +68,9 @@ export function Upload() {
         progress = 100
         clearInterval(interval)
 
-        // Simulate processing delay after upload completes
+        // After upload completes, navigate to processing page
         setTimeout(() => {
-          setIsUploading(false)
-          router.push(`/results?fileName=${encodeURIComponent(file.name)}`)
+          router.push(`/processing?fileName=${encodeURIComponent(file.name)}`)
         }, 500)
       }
       setUploadProgress(progress)
@@ -175,7 +174,7 @@ export function Upload() {
                   disabled={isUploading}
                 >
                   {isUploading ? (
-                    <>Processing Document...</>
+                    <>Uploading Document...</>
                   ) : (
                     <>
                       <UploadIcon className="h-4 w-4" />
