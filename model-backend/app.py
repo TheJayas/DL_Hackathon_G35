@@ -1,6 +1,7 @@
 import os
 import pandas as pd
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers.pipelines import TextGenerationPipeline
 import torch
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -31,13 +32,14 @@ def combine_csv_tables(csv_dir, max_files=1):
 
 # === LLaMA Pipeline Loading ===
 def load_llama3_pipeline():
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME) 
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
         torch_dtype=torch.float16,
         device_map="auto"
     )
-    return pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
+    return TextGenerationPipeline(model=model, tokenizer=tokenizer, max_new_tokens=512)
+
 
 # === Query Processing ===
 def ask_llama3_about_tables(llm_pipeline, table_text, user_query):
