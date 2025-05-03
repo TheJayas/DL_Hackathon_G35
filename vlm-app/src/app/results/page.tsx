@@ -106,16 +106,16 @@ The final section summarizes the key points and provides conclusions.
               </Button>
             </div>
           </div>
-          <div  className="w-full max-w-3xl"> 
-          <Tabs defaultValue="text" className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-3 p-1 rounded-xl bg-gray-100/80 backdrop-blur-sm">
-              <TabsTrigger
+          <div className="w-3xl"> 
+          <Tabs defaultValue="images" className="w-full">
+            <TabsList className="grid w-full max-w-md grid-cols-2 p-1 rounded-xl bg-gray-100/80 backdrop-blur-sm">
+              {/* <TabsTrigger
                 value="text"
                 className="flex items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
               >
                 <FileText className="h-4 w-4" />
                 Text
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger
                 value="images"
                 className="flex items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
@@ -131,95 +131,6 @@ The final section summarizes the key points and provides conclusions.
                 Tables
               </TabsTrigger>
             </TabsList>
-
-            <TabsContent value="text" className="mt-6">
-              <Card className="border-gray-200 shadow-xl overflow-hidden ">
-                <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b pt-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-[#1E3A8A]">Extracted Text</CardTitle>
-                      <CardDescription>
-                        The following text was extracted from your document using our Visual Language Model.
-                      </CardDescription>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="gap-1 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10"
-                        onClick={copyToClipboard}
-                      >
-                        {copied ? (
-                          <>
-                            <Check className="h-4 w-4" />
-                            Copied
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="h-4 w-4" />
-                            Copy Text
-                          </>
-                        )}
-                      </Button>
-                      <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]">
-                        <Download className="h-4 w-4" />
-                        Download
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-6 bg-white">
-                  <div className="prose max-w-none dark:prose-invert">
-                    {extractedText.split("\n\n").map((paragraph, index) => {
-                      if (paragraph.startsWith("# ")) {
-                        return (
-                          <h1 key={index} className="text-3xl font-bold mt-4 text-[#1E3A8A] border-b pb-2">
-                            {paragraph.substring(2)}
-                          </h1>
-                        )
-                      } else if (paragraph.startsWith("## ")) {
-                        return (
-                          <h2 key={index} className="text-2xl font-bold mt-6 text-[#1E3A8A]">
-                            {paragraph.substring(3)}
-                          </h2>
-                        )
-                      } else if (paragraph.startsWith("### ")) {
-                        return (
-                          <h3 key={index} className="text-xl font-bold mt-4 text-[#1E3A8A]">
-                            {paragraph.substring(4)}
-                          </h3>
-                        )
-                      } else if (paragraph.startsWith("* ")) {
-                        return (
-                          <ul key={index} className="list-disc pl-5 mt-4 space-y-2">
-                            {paragraph.split("\n").map((item, i) => (
-                              <li key={i} className="text-gray-700">
-                                {item.substring(2)}
-                              </li>
-                            ))}
-                          </ul>
-                        )
-                      } else {
-                        return (
-                          <p key={index} className="mt-4 text-gray-700 leading-relaxed">
-                            {paragraph}
-                          </p>
-                        )
-                      }
-                    })}
-                  </div>
-                </CardContent>
-                <CardFooter className="bg-gray-50 border-t p-4 flex justify-between items-center">
-                  <p className="text-sm text-gray-500">
-                    Processed with <span className="font-medium">98%</span> confidence
-                  </p>
-                  <Button className="gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
-                    <Download className="h-4 w-4" />
-                    Download as PDF
-                  </Button>
-                </CardFooter>
-              </Card>
-            </TabsContent>
 
             <TabsContent value="images" className="mt-6">
               <Card className="border-gray-200 shadow-xl overflow-hidden w-full">
@@ -247,39 +158,6 @@ The final section summarizes the key points and provides conclusions.
                         <div className="absolute inset-0 border-2 border-[#1E3A8A] m-4 rounded-md pointer-events-none opacity-60"></div>
                         <div className="absolute bottom-2 right-2 bg-[#1E3A8A] text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                           Figure 1
-                        </div>
-                      </div>
-                      <div className="p-4 bg-white">
-                        <h3 className="font-medium text-[#1E3A8A]">Chart: Quarterly Results</h3>
-                        <p className="mt-1 text-sm text-gray-500">Bar chart showing quarterly financial performance</p>
-                        <div className="mt-3 flex justify-between items-center">
-                          <span className="text-xs text-gray-500">Confidence: 96%</span>
-                          <Button variant="outline" size="sm" className="h-8 gap-1 text-xs">
-                            <Download className="h-3 w-3" />
-                            Download
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow group">
-                      <div className="aspect-video bg-gray-100 relative">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <ImageIcon className="h-12 w-12 text-gray-400" />
-                        </div>
-                        <div className="absolute inset-0 border-2 border-[#1E3A8A] m-4 rounded-md pointer-events-none opacity-60"></div>
-                        <div className="absolute bottom-2 right-2 bg-[#1E3A8A] text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                          Figure 2
-                        </div>
-                      </div>
-                      <div className="p-4 bg-white">
-                        <h3 className="font-medium text-[#1E3A8A]">Diagram: Product Architecture</h3>
-                        <p className="mt-1 text-sm text-gray-500">Technical diagram showing product components</p>
-                        <div className="mt-3 flex justify-between items-center">
-                          <span className="text-xs text-gray-500">Confidence: 94%</span>
-                          <Button variant="outline" size="sm" className="h-8 gap-1 text-xs">
-                            <Download className="h-3 w-3" />
-                            Download
-                          </Button>
                         </div>
                       </div>
                     </div>
