@@ -83,12 +83,12 @@ const processSteps = [
 //   }
 // ]
 const stepPositions = [
-    { left: "12.5%", width: "105px", height: "87px",top : 217 },  // PDF to Image
-    { left: "29.3%", width: "128px", height: "141px",top : 243 },  // Table Detection
-    { left: "47.2%", width: "130px", height: "90px",top : 218 },  // Structure Recognition
-    { left: "62.5%", width: "82px", height: "86px",top : 216 },   // OCR
-    { left: "75.0%", width: "92px", height: "85px",top : 216 },  // Form Prompt
-    { left: "75.1%", width: "125px", height: "80px",top : 421 },   // USER
+    { left: "17.0%", width: "105px", height: "87px",top : 217 },  // PDF to Image
+    { left: "31.7%", width: "128px", height: "141px",top : 243 },  // Table Detection
+    { left: "48.0%", width: "130px", height: "90px",top : 218 },  // Structure Recognition
+    { left: "61.8%", width: "82px", height: "86px",top : 216 },   // OCR
+    { left: "72.9%", width: "92px", height: "85px",top : 216 },  // Form Prompt
+    { left: "72.9%", width: "125px", height: "80px",top : 401 },   // USER
   ];
 
 //   const activeBoxStyle = {
@@ -273,8 +273,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
           <Image
           src={img1}
           fill
-          
-        //   width={1000}
+        
             // src="../../public/flow.png"
             alt="Document Processing Workflow Diagram"
             className="object-contain"
