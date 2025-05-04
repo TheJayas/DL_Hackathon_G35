@@ -108,11 +108,11 @@ interface ProcessVisualizationProps {
   onProcessComplete: () => void
 }
 interface ProcessingData {
-  message: string;
-  csv_contents: string[];
-  detected_table_urls: string[];
-  cropped_table_urls:  string[];
-  table_structure_urls:  string[];
+  "message": string;
+  "csv_contents": string[];
+  "detected_table_urls": string[];
+  "cropped_table_urls":  string[];
+  "table_structure_urls":  string[];
 }
 interface DocumentImage {
   id: number;
@@ -133,15 +133,16 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
   const [documentStructureImages, setDocumentStructureImages] = useState<DocumentImage[]>([]);
   const [detectedTableImages, setDetectedTableImages] = useState<DocumentImage[]>([]);
 
-  const [data, setData] = useState<ProcessingData | null>({cropped_table_urls: [],csv_contents: [],detected_table_urls: [],message: "",table_structure_urls: []});
+  const [data, setData] = useState<ProcessingData | null>({"cropped_table_urls": [],"csv_contents": [],"detected_table_urls": [],"message": "","table_structure_urls": []});
   useEffect( () => {
-    console.log("Processing Data:", data);
-    console.log(1111);
+    // console.log("Processing Data:", data);
+    // console.log(1111);
     
   const storedData = localStorage.getItem("processingResponse");
-  console.log("Stored Data:", storedData);
+  // console.log("Stored Data:", storedData);
   if (storedData) {
     const response = JSON.parse(storedData);
+    // console.log("Parsed Response:", response);
     setData(response);
     // const images: DocumentImage[] = response.table_structure_url.map((url:any, idx:any) => ({
     //   id: idx + 1,
@@ -150,11 +151,12 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
     //   caption: `Table Structure ${idx + 1}`, 
     // }));
  // Use response data here
-    console.log(response);}
-    console.log("Stored Data:", storedData);
+    // console.log(response);
+    // console.log("Stored Data:", storedData);
   
     if(data){
-      const images: DocumentImage[] = data.table_structure_urls.map((url:string, idx:number) => ({
+      console.log("Data:", data);
+      const images: DocumentImage[] = response.table_structure_urls.map((url:string, idx:number) => ({
         id: idx + 1,
         src: url,
         alt: `Document Table Structure ${idx + 1}`,
@@ -164,7 +166,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
       console.log("Document Structure Images:", images);
     }
     if(data){
-      const images1: DocumentImage[] = data.detected_table_urls.map((url:string, idx:number) => ({
+      const images1: DocumentImage[] = response.detected_table_urls.map((url:string, idx:number) => ({
         id: idx + 1,
         src: url,
         alt: `Detected Table ${idx + 1}`,
@@ -172,7 +174,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
       }));
       setDetectedTableImages(images1);
       console.log("Detected Table Images:", images1);
-    }
+    }}
   }, []);
   const scrollAmount = 300 // Amount to scroll on each arrow click
   const structureScrollAmount = 400 // Amount to scroll for structure images
@@ -244,7 +246,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
           onProcessComplete()
         }, 1000)
       }
-    }, 1500)
+    }, 3500)
 
     return () => clearInterval(interval)
   }, [activeStep, isProcessing, isPaused, onProcessComplete])
