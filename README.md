@@ -45,7 +45,7 @@ The system operates through the following steps:
    ```
 2. Install the required packages:
    ```bash
-   pip install -r requirements.txt
+   cd mdodel-backend && pip install -r requirements.txt
    ```
 3. Set up Cloudinary credentials:
    - Create a Cloudinary account and obtain your `cloud_name`, `api_key`, and `api_secret`.
@@ -56,6 +56,12 @@ The system operates through the following steps:
 5. Set up Hugging Face Token:
    - Obtain a Hugging Face token and replace the placeholder token in `mode_init.py` with your token.
 
+6. Setup frontend
+   - Install npm modules
+     ```bash
+     cd vlm-app && npm install
+     ```
+
 ## Usage
 
 1. Run the Flask application:
@@ -64,6 +70,10 @@ The system operates through the following steps:
    ```
 2. Send POST requests to the `/processImage` and `/processPdf` endpoints to process images and PDFs, respectively.
 3. Send POST requests to the `/ask` endpoint to query the extracted table data.
+4. Run frontend server
+   ```
+   cd vlm-app && npm run dev
+   ```
 
 
 ## File Descriptions
