@@ -131,22 +131,9 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
   const [isPaused, setIsPaused] = useState(false)
   const [currentStructureImage, setCurrentStructureImage] = useState(0)
   const [documentStructureImages, setDocumentStructureImages] = useState<DocumentImage[]>([]);
+  const [detectedTableImages, setDetectedTableImages] = useState<DocumentImage[]>([]);
 
-  const [data, setData] = useState<ProcessingData | null>({cropped_table_urls
-    : 
-    ['https://res.cloudinary.com/divc1cuwa/image/upload/v1746302730/ugneweljfrzo65diqiev.jpg']
-    ,csv_contents
-    : 
-    ['Salt Concentration (%),<Trial #1,1 Trial #2,ransmi…56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n']
-    ,detected_table_urls
-    : 
-    ['https://res.cloudinary.com/divc1cuwa/image/upload/v1746302730/m9gph71esqqa3zljhfov.jpg']
-    ,message
-    : 
-    "Image processed successfully"
-    ,table_structure_urls
-    : 
-    ['https://res.cloudinary.com/divc1cuwa/image/upload/v1746302731/xzhmwa02ij0eposp2bsk.jpg']});
+  const [data, setData] = useState<ProcessingData | null>({cropped_table_urls: [],csv_contents: [],detected_table_urls: [],message: "",table_structure_urls: []});
   useEffect( () => {
     console.log("Processing Data:", data);
     console.log(1111);
@@ -155,7 +142,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
   console.log("Stored Data:", storedData);
   if (storedData) {
     const response = JSON.parse(storedData);
-    // setData(response);
+    setData(response);
     // const images: DocumentImage[] = response.table_structure_url.map((url:any, idx:any) => ({
     //   id: idx + 1,
     //   src: url,
@@ -176,7 +163,16 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
       setDocumentStructureImages(images);
       console.log("Document Structure Images:", images);
     }
-
+    if(data){
+      const images1: DocumentImage[] = data.detected_table_urls.map((url:string, idx:number) => ({
+        id: idx + 1,
+        src: url,
+        alt: `Detected Table ${idx + 1}`,
+        caption: `Detected Table ${idx + 1}`, 
+      }));
+      setDetectedTableImages(images1);
+      console.log("Detected Table Images:", images1);
+    }
   }, []);
   const scrollAmount = 300 // Amount to scroll on each arrow click
   const structureScrollAmount = 400 // Amount to scroll for structure images
@@ -348,9 +344,9 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
         <div className="mb-10 mt-5 bg-white p-6 rounded-xl border shadow-lg"
             ref={structureResultsRef}
         >
-          <h3 className="text-xl font-semibold mb-4 text-[#1E3A8A]">Structure Recognition Results</h3>
+          <h3 className="text-xl font-semibold mb-4 text-[#1E3A8A]">Table Detection Results</h3>
           <p className="text-gray-600 mb-6">
-            The document structure has been analyzed. Please review the detected structural elements below.
+            The document structure has been analyzed. Please review the detected Table elements below.
           </p>
 
           {/* Structure Images Carousel */}
@@ -372,7 +368,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                 onClick={scrollStructureRight}
                 className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
                 aria-label="Next image"
-                disabled={currentStructureImage === documentStructureImages.length - 1}
+                disabled={currentStructureImage === detectedTableImages.length - 1}
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
@@ -384,15 +380,15 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
                 className="flex transition-transform duration-300 ease-in-out"
                 style={{ transform: `translateX(-${currentStructureImage * 100}%)` }}
               >
-                {documentStructureImages.map((image) => (
+                {detectedTableImages.map((image) => (
                   <div key={image.id} className="w-full flex-shrink-0">
                     <div className="relative bg-transparent flex justify-center items-center">
                       <img src={image.src || "/placeholder.svg"} alt={image.alt}  className="object-contain" />
                     </div>
                     <div className="p-4  text-center">
-                      <h4 className="font-medium text-[#1E3A8A]">Table Structure</h4>
+                      <h4 className="font-medium text-[#1E3A8A]">Detected Table Results</h4>
                       <p className="text-sm text-gray-500">
-                        {image.id}/{documentStructureImages.length}
+                        {image.id}/{detectedTableImages.length}
                       </p>
                     </div>
                   </div>
@@ -408,7 +404,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
             <div className="mb-10 mt-5 bg-white p-6 rounded-xl border shadow-lg">
               <h3 className="text-xl font-semibold mb-4 text-[#1E3A8A]">Structure Recognition Results</h3>
               <p className="text-gray-600 mb-6">
-                The document structure has been analyzed. Please review the detected structural elements below.
+                The document structure has been analyzed. Please review the Table structural below.
               </p>
 
               {/* Structure Images Carousel */}

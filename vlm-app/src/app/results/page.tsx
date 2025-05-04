@@ -1,46 +1,70 @@
 "use client"
 import CsvViewer from "@/components/ui/csvviewer"
+import { ChevronLeft, ChevronRight, Play, Sheet, Brain, ScanText, FormInput, FileSpreadsheet, Bot } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, Download, FileText, ImageIcon, Table, Check, Copy } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
-
+import { useEffect, useState,useRef } from "react"
+interface ProcessingData {
+  message: string;
+  csv_contents: string[];
+  detected_table_urls: string[];
+  cropped_table_urls:  string[];
+  table_structure_urls:  string[];
+}
+interface DocumentImage {
+  id: number;
+  src: string;
+  alt: string;
+  caption: string;
+}
 export default function ResultsPage() {
   const searchParams = useSearchParams()
   const fileName = searchParams.get("fileName") || "document.pdf"
-
-  const [extractedText, setExtractedText] = useState<string>("")
+  const [croppedImages, setCroppedImages] = useState<DocumentImage[]>([]);
+  const [data, setData] = useState<ProcessingData | null>({cropped_table_urls: [],csv_contents: [],detected_table_urls: [],message: "",table_structure_urls: []});
   const [copied, setCopied] = useState(false)
-
+  const structureImagesRef = useRef<HTMLDivElement>(null)
+  const [currentStructureImage, setCurrentStructureImage] = useState(0)
   useEffect(() => {
+    const storedData = localStorage.getItem("processingResponse");
+    console.log("Stored Data:", storedData);
+    if (storedData) {
+      const response = JSON.parse(storedData);
+      setData(response);
+      console.log(response);}
+      console.log("Stored Data:", storedData);
+    
+      if(data){
+        const images: DocumentImage[] = data.cropped_table_urls.map((url:string, idx:number) => ({
+          id: idx + 1,
+          src: url,
+          alt: `Document Table Structure ${idx + 1}`,
+          caption: `Table Structure ${idx + 1}`, 
+        }));
+        setCroppedImages(images);
+        console.log("Document Structure Images:", images);
+      }
     // Simulate loading extracted text
-    setExtractedText(`# Document Title
-
-## Section 1
-This is the first section of the document. It contains important information about the topic.
-
-## Section 2
-The second section elaborates on the concepts introduced in the first section.
-
-### Subsection 2.1
-This subsection provides additional details and examples.
-
-## Section 3
-The final section summarizes the key points and provides conclusions.
-
-* Point 1
-* Point 2
-* Point 3`)
+    
   }, [])
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(extractedText)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  
+  const scrollStructureLeft = () => {
+    if (structureImagesRef.current) {
+      setCurrentStructureImage((prev) => Math.max(0, prev - 1))
+    }
   }
+
+  const scrollStructureRight = () => {
+    if (structureImagesRef.current) {
+      setCurrentStructureImage((prev) => Math.min(croppedImages.length - 1, prev + 1))
+    }
+  }
+
   // utils/downloadCSV.ts
 
  function downloadCSV(csvContent: string, filename = 'data.csv') {
@@ -135,14 +159,14 @@ The final section summarizes the key points and provides conclusions.
                 className="flex items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
               >
                 <ImageIcon className="h-4 w-4" />
-                Images
+                Cropped Tables
               </TabsTrigger>
               <TabsTrigger
                 value="tables"
                 className="flex items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
               >
                 <Table className="h-4 w-4" />
-                Tables
+                Visualised Tables
               </TabsTrigger>
             </TabsList>
 
@@ -151,9 +175,9 @@ The final section summarizes the key points and provides conclusions.
                 <CardHeader className="bg-gradient-to-r from-[#1E3A8A]/10 to-transparent border-b pt-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-[#1E3A8A]">Extracted Images</CardTitle>
+                      <CardTitle className="text-[#1E3A8A]">Cropped Table Images</CardTitle>
                       <CardDescription>
-                        Images detected in your document with bounding box visualization.
+                        Cropped Tables detected in your document 
                       </CardDescription>
                     </div>
                     <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]">
@@ -163,7 +187,7 @@ The final section summarizes the key points and provides conclusions.
                   </div>
                 </CardHeader>
                 <CardContent className="p-6 bg-white">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow group">
                       <div className="aspect-video bg-gray-100 relative">
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -175,11 +199,57 @@ The final section summarizes the key points and provides conclusions.
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
+                  <div className="relative">
+                              {/* Carousel Navigation Buttons */}
+                              <div className="absolute top-1/2 left-4 -translate-y-1/2 z-10">
+                                <button
+                                  onClick={scrollStructureLeft}
+                                  className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                                  aria-label="Previous image"
+                                  disabled={currentStructureImage === 0}
+                                >
+                                  <ChevronLeft className="h-6 w-6" />
+                                </button>
+                              </div>
+                  
+                              <div className="absolute top-1/2 right-4 -translate-y-1/2 z-10">
+                                <button
+                                  onClick={scrollStructureRight}
+                                  className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
+                                  aria-label="Next image"
+                                  disabled={currentStructureImage === croppedImages.length - 1}
+                                >
+                                  <ChevronRight className="h-6 w-6" />
+                                </button>
+                              </div>
+                  
+                              {/* Images */}
+                              <div className="overflow-hidden rounded-lg">
+                                <div
+                                  className="flex transition-transform duration-300 ease-in-out"
+                                  style={{ transform: `translateX(-${currentStructureImage * 100}%)` }}
+                                >
+                                  {croppedImages.map((image) => (
+                                    <div key={image.id} className="w-full flex-shrink-0">
+                                      <div className="relative bg-transparent flex justify-center items-center">
+                                        <img src={image.src || "/placeholder.svg"} alt={image.alt}  className="object-contain" />
+                                      </div>
+                                      <div className="p-4  text-center">
+                                        <h4 className="font-medium text-[#1E3A8A]">Detected Table Results</h4>
+                                        <p className="text-sm text-gray-500">
+                                          {image.id}/{croppedImages.length}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
                 </CardContent>
                 <CardFooter className="bg-gray-50 border-t p-4 flex justify-between items-center">
                   <p className="text-sm text-gray-500">
-                    <span className="font-medium">2</span> images detected
+                    <span className="font-medium">{croppedImages.length}</span> images detected
                   </p>
                   <Button className="gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
                     <Download className="h-4 w-4" />
