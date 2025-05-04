@@ -28,7 +28,7 @@ export default function Home() {
             <Link href={`#${id}`}>
               <Button
                 variant="ghost"
-                className="px-3 py-1.5 text-gray-600 hover:bg-gray-50 hover:text-[#1E3A8A]"
+                className="px-3 py-1.5 text-gray-600 hover:bg-gray-50 hover:text-[#1E3A8A] cursor-pointer"
                 onClick={() => {
                   id === "Features" ? setId("Process") : id === "Process" ? setId("Top") :setId("Features");
                 }}
@@ -37,7 +37,7 @@ export default function Home() {
               </Button>
             </Link>
             <Button
-              className="px-4 py-1.5 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] text-white hover:opacity-90 transition-opacity"
+              className="px-4 py-1.5 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] text-white hover:opacity-90 transition-opacity cursor-pointer"
             >
               Get Started
             </Button>
@@ -66,14 +66,14 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity h-11 px-8">
+                  {/* <Button className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity h-11 px-8">
                     Try It Now
-                  </Button>
-                  <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
+                  </Button> */}
+                  {/* <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
                     <Button variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10 h-11 px-8">
                       Learn More
                     </Button>
-                  </Link>
+                  </Link> */}
                 </div>
                 <div className="flex items-center gap-4 pt-4">
                   {/* <div className="flex -space-x-2">
@@ -131,11 +131,11 @@ export default function Home() {
                   Convert complex tables from documents into structured data that can be analyzed and exported.
                 </p>
                 <div className="pt-2">
-                <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
+                {/* <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
                   <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
                     Learn more <ChevronRight className="h-4 w-4" />
                   </Button>
-                </Link>
+                </Link> */}
                 </div>
               </div>
               <div className="flex flex-col justify-center space-y-4 rounded-xl border bg-gradient-to-b from-white to-gray-50 p-6 shadow-lg transition-all hover:shadow-xl">
@@ -147,11 +147,11 @@ export default function Home() {
                   Accurately extract and format table content from pdfs, preserving headings, paragraphs, and lists.
                 </p>
                 <div className="pt-2">
-                <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
+                {/* <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
                   <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
                     Learn more <ChevronRight className="h-4 w-4" />
                   </Button>
-                </Link>
+                </Link> */}
                 </div>
               </div>
               <div className="flex flex-col justify-center space-y-4 rounded-xl border bg-gradient-to-b from-white to-gray-50 p-6 shadow-lg transition-all hover:shadow-xl">
@@ -163,11 +163,11 @@ export default function Home() {
                   Detect and extract tables from images with bounding box visualization, identifying charts, diagrams, and photos.
                 </p>
                 <div className="pt-2">
-                <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
+                {/* <Link href="https://github.com/TheJayas/DL_Hackathon_G35">
                   <Button variant="link" className="p-0 h-auto text-[#1E3A8A] gap-1 font-medium">
                     Learn more <ChevronRight className="h-4 w-4" />
                   </Button>
-                </Link>
+                </Link> */}
                 </div>
               </div>
             </div>
@@ -337,7 +337,7 @@ export default function Home() {
             <div className="space-y-4 justify-center items-center text-center">
               <div className="flex gap-2 justify-center items-center text-center">
                 <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] flex items-center justify-center shadow-md">
-                  <span className="text-white font-bold text-xs">TableEx</span>
+                  <span className="text-white font-bold text-xs">TbEx</span>
                 </div>
                 <span className="font-bold text-[#1E3A8A]">TableEx Processor</span>
               </div>

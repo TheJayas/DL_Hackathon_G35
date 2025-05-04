@@ -17,7 +17,7 @@ export default function ProcessingPage() {
         <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-sm">TableEx</span>
+              <span className="text-white font-bold text-sm">TbEx</span>
             </div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6]">
               TableEx Document Processor
