@@ -471,7 +471,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
         <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 z-10">
           <button
             onClick={scrollLeft}
-            className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 cursor-pointer"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-6 w-6" />
@@ -481,7 +481,7 @@ export default function ProcessVisualization({ fileName, onProcessComplete }: Pr
         <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 z-10">
           <button
             onClick={scrollRight}
-            className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+            className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 cursor-pointer"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-6 w-6" />

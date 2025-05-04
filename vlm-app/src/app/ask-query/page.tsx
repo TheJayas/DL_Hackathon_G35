@@ -117,7 +117,7 @@ export default function AskQueryPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="gap-1 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10 mr-4"
+                className="gap-1 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10 mr-4 cursor-pointer"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Results
