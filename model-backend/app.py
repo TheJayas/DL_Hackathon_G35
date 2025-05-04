@@ -14,7 +14,7 @@ from mode_init import load_llama3_pipeline
 from csv2html import csv2html
 
 
-CSV_DIR = "extracted_tables"  
+CSV_DIR = "./"  
 MODEL_NAME = "meta-llama/Llama-3.2-1B"  
 
 def combine_csv_tables(csv_dir, max_files=1):
@@ -80,7 +80,8 @@ def process_image_route():
     table_structure_url = upload_image('table_structure.jpg')
     with open('output.csv', 'r') as file:
         csv_content = file.read()
-    return jsonify({"message": "Image processed successfully", "html_contents": [csv2html(csv_content)], 
+    return jsonify({"message": "Image processed successfully", "html_contents": [csv2html(csv_content)],
+                    "csv_contents": [csv_content],
                     "detected_table_urls": [detected_table_url], 
                     "cropped_table_urls": [cropped_table_url], 
                     "table_structure_urls": [table_structure_url]}), 200
@@ -115,12 +116,15 @@ def process_pdf_route():
         cropped_table_urls.append(cropped_table_url)
         table_structure_urls.append(table_structure_url)
     html_contents = []
+    csv_contents = []
     for i in range(total_tables):
         with open(f"combined_group_{i+1}.csv", 'r') as file:
             csv_content = file.read()
+        csv_contents.append(csv_content)
         html_content = csv2html(csv_content)
         html_contents.append(html_content)
     return jsonify({"message": "PDF processed successfully", "html_contents": html_contents, 
+                    "csv_contents": csv_contents,
                     "detected_table_urls": detected_table_urls, 
                     "cropped_table_urls": cropped_table_urls, 
                     "table_structure_urls": table_structure_urls}), 200

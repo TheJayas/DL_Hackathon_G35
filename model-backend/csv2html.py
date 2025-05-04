@@ -26,4 +26,6 @@ def csv2html(cvs):
   )
   html = response.text.replace("'", "").replace('"', '')
   html = html.replace("`", "")
+  html = '<table' + html.split('<table')[1]
+  html = html.replace('\n', '')
   return html
