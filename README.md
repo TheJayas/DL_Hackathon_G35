@@ -25,6 +25,8 @@ The system operates through the following steps:
 
 ![table](images_assets/img3.jpg)
 
+3. **Table Structure Recognition**: The Table Structure Recognition model detects boundary boxes of table cells (structures).
+
 ![table-cells](images_assets/img4.jpg)
     
 3. **OCR & CSV Extraction:** PaddleOCR extracts text from the cropped tables and saves the data into individual CSV files. 📄
@@ -45,7 +47,7 @@ The system operates through the following steps:
    ```
 2. Install the required packages:
    ```bash
-   cd mdodel-backend && pip install -r requirements.txt
+   cd model-backend && pip install -r requirements.txt
    ```
 3. Set up Cloudinary credentials:
    - Create a Cloudinary account and obtain your `cloud_name`, `api_key`, and `api_secret`.
