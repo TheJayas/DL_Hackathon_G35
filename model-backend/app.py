@@ -13,7 +13,20 @@ from combine_csv import combine
 from mode_init import load_llama3_pipeline
 from csv2html import csv2html
 from google import genai
+import glob
 
+
+import glob
+
+def before_starting():
+    for file in glob.glob("*.csv"):
+        os.remove(file)
+    
+    for file in glob.glob("*.html"):
+        os.remove(file)
+    
+    for file in glob.glob("*.jpg"):
+        os.remove(file)
 
 html_tables_for_query = []
 CSV_DIR = "./"  
@@ -80,6 +93,7 @@ def ask():
 
 @app.route('/processImage', methods=['POST'])
 def process_image_route():
+    before_starting()
     if 'image' not in request.files:
         return 'No file part', 400
     file = request.files['image']
@@ -93,6 +107,8 @@ def process_image_route():
     table_structure_url = upload_image('table_structure.jpg')
     with open('output.csv', 'r') as file:
         csv_content = file.read()
+    html_content = csv2html(csv_content)
+    html_tables_for_query.append(html_content)
     return jsonify({"message": "Image processed successfully", "html_contents": [csv2html(csv_content)],
                     "csv_contents": [csv_content],
                     "detected_table_urls": [detected_table_url], 
@@ -106,7 +122,7 @@ def process_pdf_route():
     # pdf_path = data.get('pdf_path')
 
     html_tables_for_query.clear()
-
+    before_starting()
     if 'pdf' not in request.files:
         return 'No file part', 400
     file = request.files['pdf']
