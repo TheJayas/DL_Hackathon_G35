@@ -27,6 +27,7 @@ export default function ResultsPage() {
   const fileName = searchParams.get("fileName") || "document.pdf"
   const [croppedImages, setCroppedImages] = useState<DocumentImage[]>([]);
   const [data, setData] = useState<ProcessingData | null>({cropped_table_urls: [],csv_contents: [],detected_table_urls: [],message: "",table_structure_urls: []});
+  const [htmlContent, setHtmlContent] = useState<string>("")
   const [copied, setCopied] = useState(false)
   const structureImagesRef = useRef<HTMLDivElement>(null)
   const [currentStructureImage, setCurrentStructureImage] = useState(0)
@@ -40,6 +41,7 @@ export default function ResultsPage() {
       console.log("Stored Data:", storedData);
       setCsvMessages(response.csv_contents[0]);
       console.log("CSV Messages:", response.csv_contents[0]);
+      setHtmlContent(response.html_contents[0]);
       if(data){
         const images: DocumentImage[] = response.cropped_table_urls.map((url:string, idx:number) => ({
           id: idx + 1,
@@ -329,7 +331,8 @@ export default function ResultsPage() {
                         </tr>
                       </tbody>
                     </table> */}
-                    <CsvViewer csvData={csvMessages} />
+                    {/* <CsvViewer csvData={csvMessages} /> */}
+                    <div dangerouslySetInnerHTML={{ __html:  htmlContent}} className="overflow-auto"></div>
                   </div>
                   <div className="mt-6 border rounded-lg p-4 bg-gray-50">
                     <h3 className="font-medium text-[#1E3A8A] mb-2">Table Analysis</h3>
