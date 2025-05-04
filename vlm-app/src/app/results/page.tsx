@@ -89,7 +89,7 @@ export default function ResultsPage() {
           {/* Logo/Link Section */}
           <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] shadow-md">
-              <span className="text-sm font-bold text-white">TableEx</span>
+              <span className="text-sm font-bold text-white">TbEx</span>
             </div>
             <span className="text-lg font-bold bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] bg-clip-text text-transparent sm:text-xl">
               TableEx Document Processor
@@ -101,7 +101,7 @@ export default function ResultsPage() {
             <Link href="/">
               <Button 
                 variant="ghost" 
-                className="text-gray-600 hover:bg-gray-100 hover:text-[#1E3A8A] px-3 py-1.5"
+                className="text-gray-600 hover:bg-gray-100 hover:text-[#1E3A8A] px-3 py-1.5 cursor-pointer"
               >
                 Dashboard
               </Button>
@@ -122,7 +122,7 @@ export default function ResultsPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-1 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10"
+                  className="gap-1 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10 cursor-pointer" 
                 >
                   <ArrowLeft className="h-4 w-4" />
                   Back
@@ -137,7 +137,7 @@ export default function ResultsPage() {
             </div>
             <div className="flex items-center gap-2">
               <Link href={`/ask-query?fileName=${encodeURIComponent(fileName)}`}>
-                <Button className="gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:opacity-90 transition-opacity">
+                <Button className="gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:opacity-90 transition-opacity cursor-pointer">
                   <MessageSquare className="h-4 w-4" />
                   Ask AI About Document
                 </Button>
@@ -164,14 +164,14 @@ export default function ResultsPage() {
               </TabsTrigger> */}
               <TabsTrigger
                 value="images"
-                className="flex items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
+                className="flex cursor-pointer items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
               >
                 <ImageIcon className="h-4 w-4" />
                 Cropped Tables
               </TabsTrigger>
               <TabsTrigger
                 value="tables"
-                className="flex items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
+                className="flex cursor-pointer items-center gap-2 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1E3A8A] data-[state=active]:to-[#3B82F6] data-[state=active]:text-white transition-all"
               >
                 <Table className="h-4 w-4" />
                 Visualised Tables
@@ -284,7 +284,7 @@ export default function ResultsPage() {
                         <Copy className="h-4 w-4" />
                         Copy Data
                       </Button> */}
-                      <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]" onClick={()=>downloadCSV( "Salt Concentration (%),<Trial #1,1 Trial #2,ransmittance (%) Trial #3,Trial #4,: Trial #5\n\nConcentration (%},<Trial #1,Trial #2,Trial #3,Trial #4,( Trial #5\n\n77.23,.74.50 , 64.88, 75.27,54.66,\n\n3:,85.23,92.82,;78.91;,60.71,57.96\n\n6:,88.39,100.05,73.66,66.51,64.54\n\n9,80.71,100.05,68.29,64.91,52.96\n\n12.,82.66 .,117.18,(71.01),( 56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n")}>
+                      <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B] cursor-pointer" onClick={()=>downloadCSV( "Salt Concentration (%),<Trial #1,1 Trial #2,ransmittance (%) Trial #3,Trial #4,: Trial #5\n\nConcentration (%},<Trial #1,Trial #2,Trial #3,Trial #4,( Trial #5\n\n77.23,.74.50 , 64.88, 75.27,54.66,\n\n3:,85.23,92.82,;78.91;,60.71,57.96\n\n6:,88.39,100.05,73.66,66.51,64.54\n\n9,80.71,100.05,68.29,64.91,52.96\n\n12.,82.66 .,117.18,(71.01),( 56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n")}>
                         <Download className="h-4 w-4" />
                         Export CSV
                       </Button>
@@ -340,9 +340,9 @@ export default function ResultsPage() {
                   </div> */}
                 </CardContent>
                 <CardFooter className="bg-gray-50 border-t p-4 flex justify-between items-center">
-                  <p className="text-sm text-gray-500">
-                    <span className="font-medium">1</span> table detected
-                  </p>
+                  {/* <p className="text-sm text-gray-500">
+                    <span className="font-medium">1</span>table detected 
+                  </p> */}
                   <div className="flex gap-2">
                     {/* <Button variant="outline" className="gap-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10">
                       <Download className="h-4 w-4" />
@@ -372,10 +372,10 @@ export default function ResultsPage() {
             &copy; {new Date().getFullYear()} TableEx Document Processor. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-[#1E3A8A]">
+            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-[#1E3A8A] cursor-pointer">
               Privacy Policy
             </Button>
-            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-[#1E3A8A]">
+            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-[#1E3A8A] cursor-pointer">
               Terms of Service
             </Button>
           </div>

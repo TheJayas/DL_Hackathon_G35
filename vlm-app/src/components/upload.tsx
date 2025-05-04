@@ -185,7 +185,7 @@ export function Upload() {
                 </label>
                 <span className="text-sm text-gray-500">or</span>
                 <Button
-                  className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity"
+                  className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity cursor-pointer"
                   size="lg"
                   onClick={() => document.getElementById("file-upload")?.click()}
                 >
