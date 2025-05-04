@@ -71,14 +71,25 @@ export default function AskQueryPage() {
     setIsLoading(true)
 
     try {
-      const res = await axios.post("http://localhost:5000/ask", {
-        query: content,
-      });
+        console.log("Sending message to AI:", JSON.stringify({query:content}))
+        const res = await fetch("http://localhost:5000/ask", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: 'POST',
+            body: JSON.stringify({query:content}),
+          });
+          console.log("Response from AI:", res)
+          const data = await res.json();
+    //   const res = await axios.post("http://localhost:5000/ask", {
+    //     query: content,
+    //   });
       console.log("Response from AI:", res);
+      
       const assistantMessage: Message = {
         id: `assistant-${Date.now()}`,
         role: "assistant",
-        content: res.data.answer || "No response from AI.",
+        content: data.answer || "No response from AI.",
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, assistantMessage])
