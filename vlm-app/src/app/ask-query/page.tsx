@@ -3,11 +3,11 @@
 import { useSearchParams } from "next/navigation"
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, CloudCog } from "lucide-react"
 import Link from "next/link"
 import ChatMessage from "@/components/chat-message"
 import { ChatInput } from "@/components/chat-input"
-
+import axios from "axios"
 // Define message types
 type MessageRole = "user" | "assistant" | "system"
 
@@ -71,41 +71,27 @@ export default function AskQueryPage() {
     setIsLoading(true)
 
     try {
-      // Simulate AI response with a delay
-      setTimeout(() => {
-        const aiResponse = generateAIResponse(content)
-        const assistantMessage: Message = {
-          id: `assistant-${Date.now()}`,
-          role: "assistant",
-          content: aiResponse,
-          timestamp: new Date(),
-        }
-        setMessages((prev) => [...prev, assistantMessage])
-        setIsLoading(false)
-      }, 1000)
+      const res = await axios.post("http://localhost:5000/ask", {
+        query: content,
+      });
+      console.log("Response from AI:", res);
+      const assistantMessage: Message = {
+        id: `assistant-${Date.now()}`,
+        role: "assistant",
+        content: res.data.answer || "No response from AI.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, assistantMessage])
     } catch (error) {
       console.error("Error generating response:", error)
+      const errorMessage: Message = {
+        id: `assistant-${Date.now()}`,
+        role: "assistant",
+        content: "Sorry, something went wrong while contacting the AI.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
       setIsLoading(false)
-    }
-  }
-
-  // Function to generate AI responses based on user queries
-  const generateAIResponse = (query: string): string => {
-    const lowerQuery = query.toLowerCase()
-
-    // Simple pattern matching for demo purposes
-    if (lowerQuery.includes("highest") && lowerQuery.includes("growth")) {
-      return "Based on the table data, Product A has the highest growth at +27% from Q1 to Q2."
-    } else if (lowerQuery.includes("total") && lowerQuery.includes("sales")) {
-      return "The total sales for Q1 were $481,690 and for Q2 were $562,980, showing an overall growth of +17%."
-    } else if (lowerQuery.includes("negative") || lowerQuery.includes("decline")) {
-      return "Product C shows a negative growth of -10%, with sales declining from $97,350 in Q1 to $87,620 in Q2."
-    } else if (lowerQuery.includes("compare") || lowerQuery.includes("comparison")) {
-      return "Comparing the products:\n\n- Product A: Highest sales and growth (+27%)\n- Product B: Moderate sales and growth (+18%)\n- Product C: Lowest sales and negative growth (-10%)\n\nProduct A is the best performer in both absolute sales and growth rate."
-    } else if (lowerQuery.includes("chart") || lowerQuery.includes("visualize") || lowerQuery.includes("graph")) {
-      return "I can describe the data that would be in a chart:\n\nA bar chart comparing Q1 and Q2 sales would show:\n- Product A: Tallest bars with significant increase in height from Q1 to Q2\n- Product B: Medium height bars with moderate increase\n- Product C: Shortest bars with a slight decrease from Q1 to Q2"
-    } else {
-      return "I can help you analyze the table data from your document. You can ask about specific products, sales figures, growth rates, or request comparisons between different quarters or products."
     }
   }
 
@@ -144,7 +130,7 @@ export default function AskQueryPage() {
       <div className="flex-1 overflow-hidden flex flex-col">
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {messages.map((message) => (
+          {messages.map((message : Message) => (
             <ChatMessage key={message.id} message={message} />
           ))}
           {isLoading && (

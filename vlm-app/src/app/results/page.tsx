@@ -23,6 +23,7 @@ interface DocumentImage {
 }
 export default function ResultsPage() {
   const searchParams = useSearchParams()
+  const [csvMessages, setCsvMessages] = useState<string>("");
   const fileName = searchParams.get("fileName") || "document.pdf"
   const [croppedImages, setCroppedImages] = useState<DocumentImage[]>([]);
   const [data, setData] = useState<ProcessingData | null>({cropped_table_urls: [],csv_contents: [],detected_table_urls: [],message: "",table_structure_urls: []});
@@ -35,11 +36,12 @@ export default function ResultsPage() {
     if (storedData) {
       const response = JSON.parse(storedData);
       setData(response);
-      console.log(response);}
+      console.log(response);
       console.log("Stored Data:", storedData);
-    
+      setCsvMessages(response.csv_contents[0]);
+      console.log("CSV Messages:", response.csv_contents[0]);
       if(data){
-        const images: DocumentImage[] = data.cropped_table_urls.map((url:string, idx:number) => ({
+        const images: DocumentImage[] = response.cropped_table_urls.map((url:string, idx:number) => ({
           id: idx + 1,
           src: url,
           alt: `Document Table Structure ${idx + 1}`,
@@ -47,7 +49,7 @@ export default function ResultsPage() {
         }));
         setCroppedImages(images);
         console.log("Document Structure Images:", images);
-      }
+      }}
     // Simulate loading extracted text
     
   }, [])
@@ -327,7 +329,7 @@ export default function ResultsPage() {
                         </tr>
                       </tbody>
                     </table> */}
-                    <CsvViewer csvData={"Salt Concentration (%),<Trial #1,1 Trial #2,ransmittance (%) Trial #3,Trial #4,: Trial #5\n\nConcentration (%},<Trial #1,Trial #2,Trial #3,Trial #4,( Trial #5\n\n77.23,.74.50 , 64.88, 75.27,54.66,\n\n3:,85.23,92.82,;78.91;,60.71,57.96\n\n6:,88.39,100.05,73.66,66.51,64.54\n\n9,80.71,100.05,68.29,64.91,52.96\n\n12.,82.66 .,117.18,(71.01),( 56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n"} />
+                    <CsvViewer csvData={csvMessages} />
                   </div>
                   <div className="mt-6 border rounded-lg p-4 bg-gray-50">
                     <h3 className="font-medium text-[#1E3A8A] mb-2">Table Analysis</h3>
