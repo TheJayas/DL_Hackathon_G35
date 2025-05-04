@@ -4,3 +4,4 @@ extracted_tables
 __pycache__
 uploads
 grouped_csvs
+.vercel
