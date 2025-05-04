@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, Play, Sheet, Brain, ScanText, FormInput, Fil
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, Download, FileText, ImageIcon, Table, Check, Copy } from "lucide-react"
+import { ArrowLeft, Download, FileText, ImageIcon, Table, Check, Copy,MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState,useRef } from "react"
@@ -134,6 +134,12 @@ export default function ResultsPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <Link href={`/ask-query?fileName=${encodeURIComponent(fileName)}`}>
+                <Button className="gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:opacity-90 transition-opacity">
+                  <MessageSquare className="h-4 w-4" />
+                  Ask AI About Document
+                </Button>
+              </Link>
               <Button variant="outline" className="gap-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10">
                 <Copy className="h-4 w-4" />
                 Share
