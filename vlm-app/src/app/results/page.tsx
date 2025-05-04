@@ -89,10 +89,10 @@ export default function ResultsPage() {
           {/* Logo/Link Section */}
           <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] shadow-md">
-              <span className="text-sm font-bold text-white">VLM</span>
+              <span className="text-sm font-bold text-white">TableEx</span>
             </div>
             <span className="text-lg font-bold bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] bg-clip-text text-transparent sm:text-xl">
-              VLM Document Processor
+              TableEx Document Processor
             </span>
           </Link>
 
@@ -106,11 +106,11 @@ export default function ResultsPage() {
                 Dashboard
               </Button>
             </Link>
-            <Button 
+            {/* <Button 
               className="bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] text-white hover:opacity-90 transition-opacity px-4 py-1.5"
             >
               <span className="hidden sm:inline">New</span> Upload
-            </Button>
+            </Button> */}
           </div>
         </div>
       </header>
@@ -142,14 +142,14 @@ export default function ResultsPage() {
                   Ask AI About Document
                 </Button>
               </Link>
-              <Button variant="outline" className="gap-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10">
+              {/* <Button variant="outline" className="gap-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10">
                 <Copy className="h-4 w-4" />
                 Share
-              </Button>
-              <Button className="gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
+              </Button> */}
+              {/* <Button className="gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
                 <Download className="h-4 w-4" />
                 Download All
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="w-3xl"> 
@@ -188,10 +188,10 @@ export default function ResultsPage() {
                         Cropped Tables detected in your document 
                       </CardDescription>
                     </div>
-                    <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]">
+                    {/* <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]">
                       <Download className="h-4 w-4" />
                       Download All
-                    </Button>
+                    </Button> */}
                   </div>
                 </CardHeader>
                 <CardContent className="p-6 bg-white">
@@ -259,10 +259,10 @@ export default function ResultsPage() {
                   <p className="text-sm text-gray-500">
                     <span className="font-medium">{croppedImages.length}</span> images detected
                   </p>
-                  <Button className="gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
+                  {/* <Button className="gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
                     <Download className="h-4 w-4" />
                     Download All Images
-                  </Button>
+                  </Button> */}
                 </CardFooter>
               </Card>
             </TabsContent>
@@ -276,14 +276,14 @@ export default function ResultsPage() {
                       <CardDescription>Tables detected and extracted from your document.</CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Button
+                      {/* <Button
                         variant="outline"
                         size="sm"
                         className="gap-1 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10"
                       >
                         <Copy className="h-4 w-4" />
                         Copy Data
-                      </Button>
+                      </Button> */}
                       <Button size="sm" className="gap-1 bg-[#1E3A8A] hover:bg-[#152C6B]" onClick={()=>downloadCSV( "Salt Concentration (%),<Trial #1,1 Trial #2,ransmittance (%) Trial #3,Trial #4,: Trial #5\n\nConcentration (%},<Trial #1,Trial #2,Trial #3,Trial #4,( Trial #5\n\n77.23,.74.50 , 64.88, 75.27,54.66,\n\n3:,85.23,92.82,;78.91;,60.71,57.96\n\n6:,88.39,100.05,73.66,66.51,64.54\n\n9,80.71,100.05,68.29,64.91,52.96\n\n12.,82.66 .,117.18,(71.01),( 56.91,46.95\n\n15,72.55,115.40:,65.72,66.03,55.38\n\n")}>
                         <Download className="h-4 w-4" />
                         Export CSV
@@ -331,27 +331,27 @@ export default function ResultsPage() {
                     </table> */}
                     <CsvViewer csvData={csvMessages} />
                   </div>
-                  <div className="mt-6 border rounded-lg p-4 bg-gray-50">
+                  {/* <div className="mt-6 border rounded-lg p-4 bg-gray-50">
                     <h3 className="font-medium text-[#1E3A8A] mb-2">Table Analysis</h3>
                     <p className="text-sm text-gray-600">
                       This table shows quarterly sales data with Product A showing the strongest growth at 27%. Overall
                       sales increased by 17% from Q1 to Q2.
                     </p>
-                  </div>
+                  </div> */}
                 </CardContent>
                 <CardFooter className="bg-gray-50 border-t p-4 flex justify-between items-center">
                   <p className="text-sm text-gray-500">
                     <span className="font-medium">1</span> table detected
                   </p>
                   <div className="flex gap-2">
-                    <Button variant="outline" className="gap-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10">
+                    {/* <Button variant="outline" className="gap-2 border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10">
                       <Download className="h-4 w-4" />
                       Excel
                     </Button>
                     <Button className="gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] hover:opacity-90 transition-opacity">
                       <Download className="h-4 w-4" />
                       CSV
-                    </Button>
+                    </Button> */}
                   </div>
                 </CardFooter>
               </Card>
@@ -369,7 +369,7 @@ export default function ResultsPage() {
         {/* Content container - now properly centered */}
         <div className="mt-6 flex w-full flex-col items-center justify-between gap-4 sm:flex-row sm:gap-0">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} VLM Document Processor. All rights reserved.
+            &copy; {new Date().getFullYear()} TableEx Document Processor. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" className="text-gray-500 hover:text-[#1E3A8A]">

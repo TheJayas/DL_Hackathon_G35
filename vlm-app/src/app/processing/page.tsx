@@ -17,10 +17,10 @@ export default function ProcessingPage() {
         <div className="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-sm">VLM</span>
+              <span className="text-white font-bold text-sm">TableEx</span>
             </div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6]">
-              VLM Document Processor
+              TableEx Document Processor
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -38,7 +38,7 @@ export default function ProcessingPage() {
       <footer className="border-t bg-white">
         <div className=" px-4 py-6 md:px-6 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} VLM Document Processor. All rights reserved.
+            &copy; {new Date().getFullYear()} TableEx Document Processor. All rights reserved.
           </p>
           <div className="flex items-center gap-4 mt-4 sm:mt-0">
             <p className="text-xs text-gray-400">Processing may take a few moments depending on document complexity</p>
