@@ -93,6 +93,7 @@ export default function AskQueryPage() {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, assistantMessage])
+
     } catch (error) {
       console.error("Error generating response:", error)
       const errorMessage: Message = {
@@ -102,8 +103,8 @@ export default function AskQueryPage() {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
-      setIsLoading(false)
     }
+    setIsLoading(false)
   }
 
   return (
