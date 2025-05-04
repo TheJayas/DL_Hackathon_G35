@@ -12,10 +12,12 @@ from cloudinary_util import upload_image
 from combine_csv import combine
 from mode_init import load_llama3_pipeline
 from csv2html import csv2html
+from google import genai
 
 
+html_tables_for_query = []
 CSV_DIR = "./"  
-MODEL_NAME = "meta-llama/Llama-3.2-1B"  
+client = genai.Client(api_key="AIzaSyBOOd1zVPmmstWvSn8L2AC0njqxiKi_QgI") 
 
 def combine_csv_tables(csv_dir, max_files=1):
     combined_text = ""
@@ -36,22 +38,33 @@ def combine_csv_tables(csv_dir, max_files=1):
     return combined_text
 
 
-def ask_llama3_about_tables(llm_pipeline, table_text, user_query):
-    prompt = f"""You are a helpful assistant. Below is data extracted from tables:
+def ask_llama3_about_tables( table_text, user_query):
+    prompt = f"""You are a helpful Data Analysis assistant. Below is table 
+    which is given as a type of HTML table.
+    You have to read this table and understand the data in it.
+    Anaylze the table and answer the question based on the data in it.
+
+    Take into account the following points:
+    1. You have to read the tables and understand the data in it.
+    2. You have to answer the question based on the data in it.
+    3. You have need to keep in mind that if there are multiple tables answer the question only for the relevant table.
 
 {table_text}
 
-Answer the following question based on the above data:
+Answer the question based on the above data:
 Question: {user_query}
-Answer:"""
-    print("Prompt sent to model:\n", prompt)
-    result = llm_pipeline(prompt)[0]["generated_text"]
-    return result[len(prompt):].strip()
+Don't answer any uneccesary information, just answer the question.
+Don't answer multiple times for the same question.
+"""
+    response = client.models.generate_content(
+        model="gemini-2.0-flash", contents = prompt
+    )
+    
+    return response.text.split('\n')
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins" : "*"}})
 
-llm = load_llama3_pipeline()
 
 @app.route('/ask', methods=['POST'])
 def ask():
@@ -60,8 +73,8 @@ def ask():
     if not user_query:
         return jsonify({"error": "No query provided"}), 400
     
-    table_text = combine_csv_tables(CSV_DIR, max_files=1)
-    answer = ask_llama3_about_tables(llm, table_text, user_query)
+    # table_text = combine_csv_tables(CSV_DIR, max_files=1)
+    answer = ask_llama3_about_tables( html_tables_for_query, user_query)
 
     return jsonify({"answer": answer}), 200
 
@@ -91,6 +104,9 @@ def process_image_route():
 def process_pdf_route():
     # data = request.get_json()
     # pdf_path = data.get('pdf_path')
+
+    html_tables_for_query.clear()
+
     if 'pdf' not in request.files:
         return 'No file part', 400
     file = request.files['pdf']
@@ -123,6 +139,8 @@ def process_pdf_route():
         csv_contents.append(csv_content)
         html_content = csv2html(csv_content)
         html_contents.append(html_content)
+    
+    html_tables_for_query.append(html_contents)
     return jsonify({"message": "PDF processed successfully", "html_contents": html_contents, 
                     "csv_contents": csv_contents,
                     "detected_table_urls": detected_table_urls, 
