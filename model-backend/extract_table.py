@@ -4,6 +4,8 @@ import torch
 from PIL import Image, ImageDraw
 from huggingface_hub import hf_hub_download
 from torchvision import transforms
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.patches import Patch
