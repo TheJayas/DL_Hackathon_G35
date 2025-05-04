@@ -1,5 +1,6 @@
 from google import genai
 import os
+from csv2html import csv2html
 
 client = genai.Client(api_key="AIzaSyBOOd1zVPmmstWvSn8L2AC0njqxiKi_QgI")
 
@@ -55,6 +56,8 @@ def combine_tables():
         with open(f'{output_dir}combined_group_{num}.csv', 'w') as file:
             csv_content = csv_content.replace('\\n', '\n')
             file.write(csv_content)
+            with open(f'{output_dir}combined_group_html_{num}.html', 'w') as file:
+                file.write(csv2html(csv_content))
         print(f"→ Created combined_table_{num}.csv")
         num += 1
     
