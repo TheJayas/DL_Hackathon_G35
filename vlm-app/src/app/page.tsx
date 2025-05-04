@@ -15,10 +15,10 @@ export default function Home() {
           <div className="flex flex-1 items-center justify-start">
             <Link href="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] shadow-md">
-                <span className="text-sm font-bold text-white">VLM</span>
+                <span className="text-sm font-bold text-white">TableEx</span>
               </div>
               <span className="text-lg font-bold bg-gradient-to-r from-[#1E3A8A] to-[#3B82F6] bg-clip-text text-transparent sm:text-xl">
-                VLM Document Processor
+                TableEx Document Processor
               </span>
             </Link>
           </div>
@@ -337,9 +337,9 @@ export default function Home() {
             <div className="space-y-4 justify-center items-center text-center">
               <div className="flex gap-2 justify-center items-center text-center">
                 <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#3B82F6] flex items-center justify-center shadow-md">
-                  <span className="text-white font-bold text-xs">VLM</span>
+                  <span className="text-white font-bold text-xs">TableEx</span>
                 </div>
-                <span className="font-bold text-[#1E3A8A]">VLM Processor</span>
+                <span className="font-bold text-[#1E3A8A]">TableEx Processor</span>
               </div>
               <p className="text-sm text-gray-500">Advanced document processing powered by Visual Language Models.</p>
             </div>
@@ -406,7 +406,7 @@ export default function Home() {
           </div>
           <div className="mt-8 border-t pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-gray-500">
-              &copy; {new Date().getFullYear()} VLM Document Processor. All rights reserved.
+              &copy; {new Date().getFullYear()} TableEx Document Processor. All rights reserved.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <Link href="#" className="text-gray-500 hover:text-[#1E3A8A]">
