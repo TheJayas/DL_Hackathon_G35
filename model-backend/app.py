@@ -11,6 +11,7 @@ from extract_table import extract_csv
 from cloudinary_util import upload_image
 from combine_csv import combine
 from mode_init import load_llama3_pipeline
+from csv2html import csv2html
 
 
 CSV_DIR = "extracted_tables"  
@@ -79,7 +80,7 @@ def process_image_route():
     table_structure_url = upload_image('table_structure.jpg')
     with open('output.csv', 'r') as file:
         csv_content = file.read()
-    return jsonify({"message": "Image processed successfully", "csv_contents": [csv_content], 
+    return jsonify({"message": "Image processed successfully", "html_contents": [csv2html(csv_content)], 
                     "detected_table_urls": [detected_table_url], 
                     "cropped_table_urls": [cropped_table_url], 
                     "table_structure_urls": [table_structure_url]}), 200
@@ -113,12 +114,13 @@ def process_pdf_route():
         table_structure_url = upload_image(f"table_structure_{i}.jpg")
         cropped_table_urls.append(cropped_table_url)
         table_structure_urls.append(table_structure_url)
-    csv_contents = []
+    html_contents = []
     for i in range(total_tables):
         with open(f"combined_group_{i+1}.csv", 'r') as file:
             csv_content = file.read()
-            csv_contents.append(csv_content)
-    return jsonify({"message": "PDF processed successfully", "csv_contents": csv_contents, 
+        html_content = csv2html(csv_content)
+        html_contents.append(html_content)
+    return jsonify({"message": "PDF processed successfully", "html_contents": html_contents, 
                     "detected_table_urls": detected_table_urls, 
                     "cropped_table_urls": cropped_table_urls, 
                     "table_structure_urls": table_structure_urls}), 200
