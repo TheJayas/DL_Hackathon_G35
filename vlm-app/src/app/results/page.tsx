@@ -211,29 +211,29 @@ export default function ResultsPage() {
                   <div className="relative">
                               {/* Carousel Navigation Buttons */}
                               <div className="absolute top-1/2 left-4 -translate-y-1/2 z-10">
-                                <button
+                                {/* <button
                                   onClick={scrollStructureLeft}
                                   className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
                                   aria-label="Previous image"
                                   disabled={currentStructureImage === 0}
                                 >
                                   <ChevronLeft className="h-6 w-6" />
-                                </button>
+                                </button> */}
                               </div>
                   
                               <div className="absolute top-1/2 right-4 -translate-y-1/2 z-10">
-                                <button
+                                {/* <button
                                   onClick={scrollStructureRight}
                                   className="bg-gray-300 rounded-full p-2 shadow-md hover:bg-gray-400 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:opacity-50"
                                   aria-label="Next image"
                                   disabled={currentStructureImage === croppedImages.length - 1}
                                 >
                                   <ChevronRight className="h-6 w-6" />
-                                </button>
+                                </button> */}
                               </div>
                   
                               {/* Images */}
-                              <div className="overflow-hidden rounded-lg">
+                              <div className="overflow-auto rounded-lg">
                                 <div
                                   className="flex transition-transform duration-300 ease-in-out"
                                   style={{ transform: `translateX(-${currentStructureImage * 100}%)` }}
