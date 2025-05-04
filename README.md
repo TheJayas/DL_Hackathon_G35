@@ -15,19 +15,25 @@ This project utilizes deep learning and natural language processing to extract t
 
 ## System Workflow
 
+![arch](images_assets/img2.jpg)
+
 The system operates through the following steps:
 
 1. **Image/PDF Upload:** Users upload an image or PDF containing tabular data. ⬆️
 
-3. **Table Detection & Cropping:** The Table Transformer model detects and crops tables from the uploaded document. ✂️
+2. **Table Detection & Cropping:** The Table Transformer model detects and crops tables from the uploaded document. ✂️
+
+![table](images_assets/img3.jpg)
+
+![table-cells](images_assets/img4.jpg)
     
-4. **OCR & CSV Extraction:** PaddleOCR extracts text from the cropped tables and saves the data into individual CSV files. 📄
+3. **OCR & CSV Extraction:** PaddleOCR extracts text from the cropped tables and saves the data into individual CSV files. 📄
     
-5. **Table Combination (PDFs):** For PDF inputs, Google Gemini analyzes the extracted CSV files and combines related tables into single CSV files. 🔗
+6. **Table Combination (PDFs):** For PDF inputs, Google Gemini analyzes the extracted CSV files and combines related tables into single CSV files. 🔗
     
-6. **CSV to HTML Conversion:**  CSV data is converted to HTML tables for interactive display. 🌐
+7. **CSV to HTML Conversion:**  CSV data is converted to HTML tables for interactive display. 🌐
     
-7. **Natural Language Querying:** Users can query the combined table data using natural language, and Google Gemini provides answers based on the extracted information.  ❓
+8. **Natural Language Querying:** Users can query the combined table data using natural language, and Google Gemini provides answers based on the extracted information.  ❓
     
 
 ## Installation
