@@ -124,7 +124,7 @@ def process_pdf_route():
                     "table_structure_urls": table_structure_urls}), 200
 
 if __name__ == "__main__":
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
+    port = int(os.environ.get("PORT", 5000))
     print(f"Server starting on port {port}...")
     app.run(host="0.0.0.0", port=port)
     print("Server exiting.")
